@@ -1,0 +1,98 @@
+import { motion } from 'framer-motion'
+import { useAppKit, useAppKitAccount } from '@reown/appkit/react'
+
+/**
+ * PancakeSwap‑style Connect Wallet pill.
+ * - Disconnected: gold gradient button with wallet icon + \"Connect Wallet\" label.
+ * - Connected: pill with green status dot, truncated address and a small chevron.
+ * Clicking always opens the AppKit modal (Connect or Account view).
+ */
+export default function ConnectWallet({ locale = 'en' }: { locale?: 'ru' | 'en' }) {
+  const { open } = useAppKit()
+  const { address, isConnected } = useAppKitAccount()
+  const isRu = locale === 'ru'
+
+  const truncateAddress = (addr: string) => {
+    const evmAddr = addr.includes(':') ? addr.split(':').pop() ?? addr : addr
+    return `${evmAddr.slice(0, 6)}...${evmAddr.slice(-4)}`
+  }
+
+  if (isConnected && address) {
+    return (
+      <motion.button
+        type="button"
+        onClick={() => open({ view: 'Account' })}
+        className="flex items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-sm font-medium text-amber-200 shadow-sm shadow-amber-500/20 transition-all hover:border-amber-400 hover:bg-amber-500/20"
+        initial={{ opacity: 0, x: 12 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.97 }}
+      >
+        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-500/30">
+          <span className="h-3 w-3 rounded-[6px] bg-[rgb(12,10,20)] shadow-inner" />
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="flex items-center gap-1 text-xs text-emerald-400">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span>{isRu ? 'Подключен' : 'Connected'}</span>
+          </span>
+          <span className="text-amber-50">{truncateAddress(address)}</span>
+        </span>
+        <svg
+          className="ml-1 h-3.5 w-3.5 text-amber-200"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M7 10L12 15L17 10"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </motion.button>
+    )
+  }
+
+  return (
+    <motion.button
+      type="button"
+      onClick={() => open({ view: 'Connect' })}
+      className="flex items-center gap-2 rounded-full bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 px-5 py-2.5 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/40 transition-all hover:shadow-amber-500/60"
+      initial={{ opacity: 0, x: 12 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.4, delay: 0.1 }}
+      whileHover={{ scale: 1.04 }}
+      whileTap={{ scale: 0.97 }}
+    >
+      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-amber-950/15">
+        <svg
+          className="h-3.5 w-3.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            x="4"
+            y="7"
+            width="16"
+            height="10"
+            rx="2.5"
+            stroke="currentColor"
+            strokeWidth="1.6"
+          />
+          <path
+            d="M16 12.5H18.5"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+          />
+        </svg>
+      </span>
+      <span>{isRu ? 'Подключить' : 'Connect Wallet'}</span>
+    </motion.button>
+  )
+}

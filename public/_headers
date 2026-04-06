@@ -1,0 +1,4 @@
+# Netlify (and similar): serve extensionless token metadata as JSON
+/nft/metadata/*
+  Content-Type: application/json
+  Access-Control-Allow-Origin: *
