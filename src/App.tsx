@@ -325,6 +325,14 @@ function App({
             >
               <div className="rounded-2xl border border-white/10 bg-[rgb(var(--bg))]/95 p-3">
                 <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setLocale((prev) => (prev === 'ru' ? 'en' : 'ru'))}
+                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-center text-xs font-medium text-zinc-300"
+                    aria-label={locale === 'ru' ? 'Switch to English' : 'Переключить на русский'}
+                  >
+                    {locale === 'ru' ? 'Language: RU' : 'Language: EN'}
+                  </button>
                   <Link
                     to="/mint-nft"
                     onClick={() => setMobileMenuOpen(false)}
