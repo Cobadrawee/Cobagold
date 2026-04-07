@@ -302,6 +302,39 @@ function App({
             </motion.div>
           </div>
         </div>
+        <div className="container-page pb-3 md:hidden">
+          <div className="no-scrollbar flex items-center gap-2 overflow-x-auto">
+            <Link
+              to="/mint-nft"
+              className="shrink-0 rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-1.5 text-xs font-medium text-amber-300"
+            >
+              {t.nav.nftMint}
+            </Link>
+            <button
+              type="button"
+              onClick={() => setLocale((prev) => (prev === 'ru' ? 'en' : 'ru'))}
+              className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-300"
+              aria-label={locale === 'ru' ? 'Switch to English' : 'Переключить на русский'}
+            >
+              {locale === 'ru' ? 'RU' : 'EN'}
+            </button>
+            {[
+              { href: '#main', label: t.nav.home },
+              { href: '#about', label: t.nav.about },
+              { href: '#tokenomics', label: t.nav.tokenomics },
+              { href: '#roadmap', label: t.nav.roadmap },
+              { href: '#contact', label: t.nav.contact },
+            ].map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-300"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
       </header>
 
       <main>
