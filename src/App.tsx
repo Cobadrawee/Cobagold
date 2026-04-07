@@ -31,6 +31,7 @@ function App({
   const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'success' | 'error'>('idle')
   const [subscribeMessage, setSubscribeMessage] = useState('')
   const [contactMessage, setContactMessage] = useState('')
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [gold9_6gUsdt, setGold9_6gUsdt] = useState<number | null>(() => readGoldPriceCache()?.usdt9_6g ?? null)
   const [gold24hChange, setGold24hChange] = useState<number | null>(
     () => readGoldPriceCache()?.change24hPct ?? null,
@@ -54,6 +55,10 @@ function App({
 
   useEffect(() => {
     document.documentElement.lang = locale === 'ru' ? 'ru' : 'en'
+  }, [locale])
+
+  useEffect(() => {
+    setMobileMenuOpen(false)
   }, [locale])
 
   // Live comparison: 9.6 grams of gold -> USDT (USD) equivalent.
@@ -279,7 +284,15 @@ function App({
             </Link>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen((v) => !v)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-zinc-300 md:hidden"
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {mobileMenuOpen ? '✕' : '☰'}
+            </button>
             <motion.button
               type="button"
               onClick={() => setLocale((prev) => (prev === 'ru' ? 'en' : 'ru'))}
@@ -302,39 +315,44 @@ function App({
             </motion.div>
           </div>
         </div>
-        <div className="container-page pb-3 md:hidden">
-          <div className="no-scrollbar flex items-center gap-2 overflow-x-auto">
-            <Link
-              to="/mint-nft"
-              className="shrink-0 rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-1.5 text-xs font-medium text-amber-300"
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              className="container-page pb-3 md:hidden"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
             >
-              {t.nav.nftMint}
-            </Link>
-            <button
-              type="button"
-              onClick={() => setLocale((prev) => (prev === 'ru' ? 'en' : 'ru'))}
-              className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-300"
-              aria-label={locale === 'ru' ? 'Switch to English' : 'Переключить на русский'}
-            >
-              {locale === 'ru' ? 'RU' : 'EN'}
-            </button>
-            {[
-              { href: '#main', label: t.nav.home },
-              { href: '#about', label: t.nav.about },
-              { href: '#tokenomics', label: t.nav.tokenomics },
-              { href: '#roadmap', label: t.nav.roadmap },
-              { href: '#contact', label: t.nav.contact },
-            ].map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-300"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </div>
+              <div className="rounded-2xl border border-white/10 bg-[rgb(var(--bg))]/95 p-3">
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    to="/mint-nft"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-center text-xs font-medium text-amber-300"
+                  >
+                    {t.nav.nftMint}
+                  </Link>
+                  {[
+                    { href: '#main', label: t.nav.home },
+                    { href: '#about', label: t.nav.about },
+                    { href: '#tokenomics', label: t.nav.tokenomics },
+                    { href: '#roadmap', label: t.nav.roadmap },
+                    { href: '#contact', label: t.nav.contact },
+                  ].map((link) => (
+                    <a
+                      key={link.href}
+                      href={link.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-center text-xs font-medium text-zinc-300"
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </header>
 
       <main>
