@@ -762,7 +762,7 @@ function App({
               onToggle={() => setProjectExpanded((v) => !v)}
               moreLabel={t.about.projectMore}
               lessLabel={t.about.projectLess}
-              collapsedNodes={10}
+              collapsedNodes={16}
             />
 
             {/* Why gold-backed */}
