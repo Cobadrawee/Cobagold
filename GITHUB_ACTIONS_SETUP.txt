@@ -1,0 +1,28 @@
+NFT price auto-sync — one-time setup (works without a token that has "workflow" scope)
+
+1) Add the workflow on GitHub (website only)
+   - Open: https://github.com/Amin200321/Cobagold
+   - Add file → Create new file
+   - File name MUST be exactly:
+     .github/workflows/sync-gold-nft-price.yml
+   - Open this repo file on your machine and paste its full contents:
+     scripts/sync-gold-nft-price.workflow.yml
+     (skip the first 3 comment lines if you want; YAML must start at "name:")
+   - Commit to main
+
+2) Add Actions secrets
+   Repo → Settings → Secrets and variables → Actions → New repository secret
+   Required:
+     GOLD_NFT_SYNC_PRIVATE_KEY  = contract owner private key (0x..., server-only, never VITE_)
+     GOLD_NFT_CONTRACT        = same address as VITE_GOLD_NFT_CONTRACT on Vercel
+   Optional:
+     ETHEREUM_RPC_URL         = Alchemy/Infura mainnet URL (recommended)
+     METALAPI_KEY or VITE_METALAPI_KEY = extra gold source (optional)
+
+3) Run once manually
+   Actions tab → "Sync Gold NFT on-chain price" → Run workflow
+
+4) Optional: local test (needs env in shell)
+   npm run sync-nft-price
+
+5) Later: if you fix a Git PAT with "workflow" scope, you can commit the same file under .github/workflows from git instead of the web UI.
