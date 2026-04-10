@@ -198,8 +198,8 @@ export default function AboutProjectText({
                 key={`hl-${i}`}
                 className="min-w-0 flex-1 rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-xs leading-relaxed text-amber-100/90 sm:min-w-[200px]"
               >
-                <span className="mr-2 inline-block h-1.5 w-1.5 rounded-full bg-amber-400 align-middle" />
-                <span>{h}</span>
+                <span className="mr-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400 align-middle" />
+                <span className="break-words">{h}</span>
               </div>
             ))}
           </div>
@@ -229,7 +229,7 @@ export default function AboutProjectText({
 
               <div className="space-y-4 pl-4 text-sm leading-[1.7] text-zinc-400 text-pretty">
                 {section.paragraphs.map((p, i) => (
-                  <p key={`${section.id}-p-${i}`} className="first:mt-0">
+                  <p key={`${section.id}-p-${i}`} className="first:mt-0 break-words hyphens-auto">
                     {p}
                   </p>
                 ))}
@@ -240,7 +240,7 @@ export default function AboutProjectText({
                   {section.bullets.map((b, i) => (
                     <li key={`${section.id}-b-${i}`} className="flex items-start gap-2.5">
                       <span className="mt-2 inline-flex h-1 w-1 shrink-0 rounded-full bg-amber-400/90" />
-                      <span>{b}</span>
+                      <span className="min-w-0 break-words hyphens-auto">{b}</span>
                     </li>
                   ))}
                 </ul>

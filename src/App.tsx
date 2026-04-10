@@ -99,7 +99,7 @@ function App({
     const fetchGold = async () => {
       try {
         const spot = await fetchGoldSpotUsdPerTroyOz(fetchWithRetry, apiKey)
-        let usdPerOunce = spot?.usdPerTroyOz ?? null
+        const usdPerOunce = spot?.usdPerTroyOz ?? null
         let change24h: number | null = spot?.change24hPct ?? null
 
         // Fallback 24h % from chart if exchanges didn’t return it

@@ -92,7 +92,7 @@ export async function fetchGoldSpotUsdPerTroyOz(
   const usdPerTroyOz = pickUsdPerTroyOz(candidates)
   if (usdPerTroyOz == null) return null
 
-  let change24hPct: number | null = cg.change24h ?? bPx?.change24h ?? null
+  const change24hPct: number | null = cg.change24h ?? bPx?.change24h ?? null
 
   return { usdPerTroyOz, change24hPct }
 }
