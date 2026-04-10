@@ -17,11 +17,15 @@ if (import.meta.env.DEV && isPlaceholderProjectId) {
   )
 }
 
+const siteOrigin =
+  import.meta.env.VITE_SITE_URL?.trim().replace(/\/$/, '') ||
+  (typeof window !== 'undefined' ? window.location.origin : 'https://cobagold.com')
+
 const metadata = {
   name: 'COBA Token',
   description: 'Gold-Backed Cryptocurrency',
-  url: typeof window !== 'undefined' ? window.location.origin : 'https://cobagold.com',
-  icons: ['https://www.cobagold.com/favicon.ico'],
+  url: siteOrigin,
+  icons: [`${siteOrigin}/coba-logo-from-pdf.png`],
 }
 
 // viem chains are compatible with AppKitNetwork for EVM

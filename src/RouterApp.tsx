@@ -16,7 +16,7 @@ export default function RouterApp() {
         <Route path="/" element={<App locale={locale} setLocale={setLocale} />} />
         <Route path="/privacy" element={<PrivacyPage locale={locale} setLocale={setLocale} />} />
         <Route path="/mint-nft" element={<GoldNftMintPage locale={locale} setLocale={setLocale} />} />
-        {/* Unknown hash paths (e.g. wallet deep links) would otherwise render nothing → black screen */}
+        {/* Unknown paths → home (SPA) */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>

@@ -7,7 +7,6 @@ import GoldParticles from './components/GoldParticles'
 import GoldHex from './components/GoldHex'
 import GoldRing from './components/GoldRing'
 import GoldOrb from './components/GoldOrb'
-import { useAppKit } from '@reown/appkit/react'
 import ConnectWallet from './components/ConnectWallet'
 import SwapOrConnect from './components/SwapOrConnect'
 import AboutProjectText from './components/AboutProjectText'
@@ -24,7 +23,6 @@ function App({
   locale: Locale
   setLocale: Dispatch<SetStateAction<Locale>>
 }) {
-  const { open } = useAppKit()
   const [showScrollTop, setShowScrollTop] = useState(false)
   const [projectExpanded, setProjectExpanded] = useState(false)
   const [newsletterEmail, setNewsletterEmail] = useState('')
@@ -968,19 +966,20 @@ function App({
               >
                 {t.cta.subtitle}
               </motion.p>
-              <motion.button
-                type="button"
-                onClick={() => open({ view: 'Connect' })}
-                className="mt-8 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-4 text-base font-semibold text-amber-950 shadow-lg shadow-amber-500/30 transition-all hover:shadow-amber-500/50"
+              <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.25 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.98 }}
+                className="mt-8"
               >
-                {t.cta.button}
-              </motion.button>
+                <Link
+                  to="/mint-nft"
+                  className="inline-flex rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-4 text-base font-semibold text-amber-950 shadow-lg shadow-amber-500/30 transition-all hover:scale-105 hover:shadow-amber-500/50 active:scale-[0.98]"
+                >
+                  {t.cta.button}
+                </Link>
+              </motion.div>
             </div>
           </motion.div>
         </section>

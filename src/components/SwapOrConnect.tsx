@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion'
-import { useAppKit, useAppKitAccount } from '@reown/appkit/react'
+import { Link } from 'react-router-dom'
+
+const MotionLink = motion.create(Link)
 
 /**
- * Button that opens Connect Wallet when disconnected, or Swap view when connected.
- * Used for "Обменять" and "Поменять USDT на COBA" flows.
+ * Primary CTA to the USDT → Gold NFT mint page (/mint-nft).
+ * Connect wallet happens on that page (Ethereum mainnet + USDT approve + mint).
  */
 export default function SwapOrConnect({
   children,
@@ -14,18 +16,6 @@ export default function SwapOrConnect({
   variant?: 'primary' | 'secondary'
   className?: string
 }) {
-  const { open } = useAppKit()
-  const { isConnected } = useAppKitAccount()
-
-  const handleClick = (e: React.MouseEvent) => {
-    e.preventDefault()
-    if (isConnected) {
-      open({ view: 'Swap' })
-    } else {
-      open({ view: 'Connect' })
-    }
-  }
-
   const baseClass =
     'inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-semibold transition-all'
   const primaryClass =
@@ -34,14 +24,13 @@ export default function SwapOrConnect({
     'border border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20'
 
   return (
-    <motion.button
-      type="button"
-      onClick={handleClick}
+    <MotionLink
+      to="/mint-nft"
       className={`${baseClass} ${variant === 'primary' ? primaryClass : secondaryClass} ${className}`}
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.98 }}
     >
       {children}
-    </motion.button>
+    </MotionLink>
   )
 }

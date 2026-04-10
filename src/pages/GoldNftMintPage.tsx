@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useRef, useState, type Dispatch, type SetStateAction } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { useAccount, useChainId, useReadContract, useWaitForTransactionReceipt, useWriteContract } from 'wagmi'
+import {
+  useAccount,
+  useChainId,
+  useReadContract,
+  useSwitchChain,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from 'wagmi'
 import { formatUnits, maxUint256 } from 'viem'
 import { mainnet } from 'viem/chains'
 import { useAppKit } from '@reown/appkit/react'
@@ -21,6 +28,7 @@ export default function GoldNftMintPage({
   const { open } = useAppKit()
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
+  const { switchChain, isPending: isSwitchPending } = useSwitchChain()
   const nftAddress = getGoldNftContractAddress()
   const usdtAddress = getUsdtAddressForChain(chainId)
 
@@ -93,6 +101,9 @@ export default function GoldNftMintPage({
 
   const needsApprove =
     totalCost !== undefined && allowance !== undefined ? allowance < totalCost : true
+
+  const insufficientUsdt =
+    totalCost !== undefined && usdtBalance !== undefined ? usdtBalance < totalCost : false
 
   const { writeContract, data: txHash, isPending, error: writeError, reset } = useWriteContract()
 
@@ -184,8 +195,16 @@ export default function GoldNftMintPage({
           )}
 
           {configured && wrongNetwork && (
-            <div className="mt-8 rounded-2xl border border-red-500/30 bg-red-500/10 p-5 text-sm text-red-200/90">
-              {t.wrongNetwork}
+            <div className="mt-8 space-y-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-5 text-sm text-red-200/90">
+              <p>{t.wrongNetwork}</p>
+              <button
+                type="button"
+                disabled={isSwitchPending}
+                onClick={() => switchChain?.({ chainId: mainnet.id })}
+                className="w-full rounded-xl border border-red-400/40 bg-red-500/20 py-3 text-sm font-semibold text-red-100 transition-colors hover:bg-red-500/30 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                {isSwitchPending ? '…' : t.switchNetwork}
+              </button>
             </div>
           )}
 
@@ -256,6 +275,10 @@ export default function GoldNftMintPage({
                     <p className="text-xs text-amber-200/80">{t.needApprove}</p>
                   )}
 
+                  {!needsApprove && insufficientUsdt && (
+                    <p className="text-xs text-red-300/90">{t.insufficientUsdt}</p>
+                  )}
+
                   {needsApprove ? (
                     <button
                       type="button"
@@ -268,7 +291,12 @@ export default function GoldNftMintPage({
                   ) : (
                     <button
                       type="button"
-                      disabled={isPending || isConfirming || totalCost === undefined}
+                      disabled={
+                        isPending ||
+                        isConfirming ||
+                        totalCost === undefined ||
+                        insufficientUsdt
+                      }
                       onClick={handleMint}
                       className="w-full rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 py-3.5 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
                     >
