@@ -162,7 +162,7 @@ export const translations = {
       perNft: 'USDT за один NFT',
       gramsNote: 'Каждый NFT = 9,6 г золота по формуле контракта.',
       priceTracksSite:
-        'Тот же спот золота, что на главной; цена в контракте обновляется автоматически (раз в час).',
+        'Тот же спот золота, что на главной; цену в контракте обновляет автоматический сценарий (раз в час, GitHub Actions).',
       quantity: 'Количество',
       total: 'Итого к оплате',
       balance: 'Ваш USDT',
@@ -341,7 +341,7 @@ export const translations = {
       perNft: 'USDT per NFT',
       gramsNote: 'Each NFT represents 9.6 g at the contract formula.',
       priceTracksSite:
-        'Same gold spot as the homepage; the on-chain price updates automatically (hourly).',
+        'Same gold spot as the homepage; GitHub Actions updates the on-chain price about once per hour.',
       quantity: 'Quantity',
       total: 'Total to pay',
       balance: 'Your USDT',
