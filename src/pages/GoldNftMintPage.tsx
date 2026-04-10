@@ -233,6 +233,7 @@ export default function GoldNftMintPage({
                   </div>
 
                   <p className="text-xs text-zinc-500">{t.gramsNote}</p>
+                  <p className="text-xs text-zinc-600">{t.priceTracksSite}</p>
 
                   {totalMinted !== undefined && maxSupply !== undefined && (
                     <p className="text-sm text-zinc-400">

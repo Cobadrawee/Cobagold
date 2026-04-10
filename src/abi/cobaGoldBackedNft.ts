@@ -23,6 +23,13 @@ export const cobaGoldBackedNftAbi = [
   },
   {
     type: 'function',
+    name: 'setUsdtMicroPerGram',
+    stateMutability: 'nonpayable',
+    inputs: [{ name: 'v', type: 'uint256' }],
+    outputs: [],
+  },
+  {
+    type: 'function',
     name: 'totalMinted',
     stateMutability: 'view',
     inputs: [],

@@ -160,7 +160,9 @@ export const translations = {
       insufficientUsdt: 'Недостаточно USDT на балансе для этой покупки. Пополните кошелёк или уменьшите количество NFT.',
       priceLabel: 'Цена за 1 NFT сейчас',
       perNft: 'USDT за один NFT',
-      gramsNote: 'Каждый NFT = 9,6 г золота по формуле контракта (курс обновляет владелец контракта).',
+      gramsNote: 'Каждый NFT = 9,6 г золота по формуле контракта.',
+      priceTracksSite:
+        'Тот же спот золота, что на главной; цена в контракте обновляется автоматически (раз в час).',
       quantity: 'Количество',
       total: 'Итого к оплате',
       balance: 'Ваш USDT',
@@ -337,7 +339,9 @@ export const translations = {
       insufficientUsdt: 'Your USDT balance is below the total for this mint. Add USDT or lower the quantity.',
       priceLabel: 'Current price per NFT',
       perNft: 'USDT per NFT',
-      gramsNote: 'Each NFT represents 9.6 g at the contract formula (owner updates the USDT-per-gram rate).',
+      gramsNote: 'Each NFT represents 9.6 g at the contract formula.',
+      priceTracksSite:
+        'Same gold spot as the homepage; the on-chain price updates automatically (hourly).',
       quantity: 'Quantity',
       total: 'Total to pay',
       balance: 'Your USDT',
