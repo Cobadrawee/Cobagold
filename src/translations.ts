@@ -82,8 +82,8 @@ export const translations = {
     },
     cta: {
       title: 'Готовы начать?',
-      subtitle: 'Подключите кошелёк на Ethereum и оплатите USDT — Gold NFT окажется в вашем кошельке.',
-      button: 'Получить Gold NFT',
+      subtitle: 'Подключите кошелек на Ethereum и отправьте USDT - COBA окажется в вашем кошельке.',
+      button: 'Получить COBA',
     },
     about: {
       title: 'Как работает COBA',
