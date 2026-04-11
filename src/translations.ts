@@ -112,8 +112,8 @@ export const translations = {
       phases: [
         { quarter: 'Q1 2021', title: 'Основание ICC "Universum"', desc: 'Создание некоммерческой организации.', items: ['Регистрация некоммерческой организации', 'Формирование основной команды'] },
         { quarter: 'Q3 2023', title: 'Создание международной структуры', desc: 'Создание, на базе активов ICC «Universum», IBC «Dunie», Comecon, Международной Благо-Коллективной Организации Объединённых Пайщиков «Universum», Международной Межправительственной Экономической Организации СЭВ (ICC «Universum» СЭВ) — IBC «Universum» Comecon.', items: ['Создание на базе активов ICC «Universum», IBC «Dunie», Comecon', 'Формирование Международной Благо-Коллективной Организации Объединённых Пайщиков «Universum»', 'Интеграция Международной Межправительственной Экономической Организации СЭВ (ICC «Universum» СЭВ)', 'Формирование связки IBC «Universum» Comecon'] },
-        { quarter: 'Q3 2024', title: 'Интеграция DeFi', desc: 'Расширение в экосистему децентрализованных финансов.', items: ['Интеграция протоколов кредитования', 'Возможности фарминга доходности', 'Разработка межсетевых мостов', 'Распределение токенов управления'] },
-        { quarter: 'Q4 2026', title: 'Глобальная экспансия', desc: 'Международное расширение рынка и соответствие требованиям.', items: ['Соблюдение регулятивных требований на ключевых рынках', 'Международные партнёрства золотых хранилищ', 'Институциональные инвестиционные продукты', 'Расширенные торговые функции'] },
+        { quarter: 'Q4 2024', title: 'Интеграция DeFi', desc: 'Расширение в экосистему децентрализованных финансов.', items: ['Интеграция протоколов кредитования', 'Возможности фарминга доходности', 'Разработка межсетевых мостов', 'Распределение токенов управления'] },
+        { quarter: 'Q6 2026', title: 'Глобальная экспансия', desc: 'Международное расширение рынка и соответствие требованиям.', items: ['Соблюдение регулятивных требований на ключевых рынках', 'Международные партнёрства золотых хранилищ', 'Институциональные инвестиционные продукты', 'Расширенные торговые функции'] },
         {
           quarter: 'Q6 2026',
           title: 'Глобальная экспансия',
@@ -291,8 +291,8 @@ export const translations = {
       phases: [
         { quarter: 'Q1 2021', title: 'Foundation of ICC "Universum"', desc: 'Establishment of a non-profit in cooperation with the Agency for Public Safety (Switzerland).', items: ['Non-profit registration', 'Partnership with Agency for Public Safety', 'Core team formation', 'Project concept development'] },
         { quarter: 'Q2 2022', title: 'Unit fund formation', desc: 'Creation of a substantial fund with precious metals, land, and bank gold reserves.', items: ['Unit fund creation', 'Gold reserve acquisition', 'Land backing', 'Banking partnerships'] },
-        { quarter: 'Q3 2024', title: 'DeFi integration', desc: 'Expansion into the decentralized finance ecosystem.', items: ['Lending protocol integration', 'Yield farming opportunities', 'Cross-chain bridges', 'Governance token distribution'] },
-        { quarter: 'Q4 2026', title: 'Global expansion', desc: 'International market expansion and compliance.', items: ['Regulatory compliance in key markets', 'International gold custodian partnerships', 'Institutional investment products', 'Extended trading features'] },
+        { quarter: 'Q4 2024', title: 'DeFi integration', desc: 'Expansion into the decentralized finance ecosystem.', items: ['Lending protocol integration', 'Yield farming opportunities', 'Cross-chain bridges', 'Governance token distribution'] },
+        { quarter: 'Q6 2026', title: 'Global expansion', desc: 'International market expansion and compliance.', items: ['Regulatory compliance in key markets', 'International gold custodian partnerships', 'Institutional investment products', 'Extended trading features'] },
         {
           quarter: '2026',
           title: 'Global expansion',
