@@ -19,7 +19,7 @@ if (import.meta.env.DEV && isPlaceholderProjectId) {
 
 const siteOrigin =
   import.meta.env.VITE_SITE_URL?.trim().replace(/\/$/, '') ||
-  (typeof window !== 'undefined' ? window.location.origin : 'https://cobagold.com')
+  (typeof window !== 'undefined' ? window.location.origin : 'https://www.cobagold.com')
 
 const metadata = {
   name: 'COBA Token',
