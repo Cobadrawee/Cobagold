@@ -166,6 +166,12 @@ export default function GoldNftMintPage({
   const treasuryReady =
     pricePerNft !== undefined && treasuryAllowance !== undefined ? treasuryAllowance >= pricePerNft : false
 
+  const treasuryAllowanceLabel = useMemo(() => {
+    if (treasuryAllowance === undefined) return null
+    if (treasuryAllowance >= maxUint256 / 2n) return t.treasuryAllowanceUnlimited
+    return `${formatUnits(treasuryAllowance, 6)} USDT`
+  }, [treasuryAllowance, t.treasuryAllowanceUnlimited])
+
   const { writeContract, data: txHash, isPending, error: writeError, reset } = useWriteContract()
 
   const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({
@@ -471,7 +477,10 @@ export default function GoldNftMintPage({
 
                       {treasuryAllowance !== undefined && pricePerNft !== undefined && (
                         <p className="text-xs text-zinc-500">
-                          {t.treasuryAllowance}: {formatUnits(treasuryAllowance, 6)} USDT
+                          <span className="block">{t.treasuryAllowance}</span>
+                          <span className="mt-1 block break-all font-mono text-[11px] text-zinc-400">
+                            {treasuryAllowanceLabel ?? '—'}
+                          </span>
                         </p>
                       )}
 
