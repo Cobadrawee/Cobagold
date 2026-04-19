@@ -11,6 +11,7 @@
 - **Network (website):** Ethereum mainnet  
 - **USDT:** USDT on Ethereum (ERC-20) — **not** TRC20, **not** BSC  
 - **Mint price:** `usdtMicroPerGram × 9.6` in micro-USDT (6 decimals)
+- **Redeem (sell back):** `redeem(tokenId)` pays `usdtForOneNft()` at execution time, burns the NFT, and pulls USDT from `treasury` via allowance (`treasury` must approve this contract on USDT).
 
 Example: `usdtMicroPerGram = 150_000_000` → **1440 USDT** per NFT.
 

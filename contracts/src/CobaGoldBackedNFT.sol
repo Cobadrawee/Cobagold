@@ -9,7 +9,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 /**
  * @title CobaGoldBackedNFT
  * @notice ERC-721 where each token costs USDT computed as (usdtMicroPerGram * 96 / 10) = 9.6 × micro-USDT per gram.
- * @dev Physical gold backing, redemption, and compliance are off-chain/legal — this contract only enforces USDT payment + mint.
+ * @dev Physical gold backing and compliance are off-chain/legal — this contract enforces USDT payment + mint, and optional on-chain redeem.
  *      USDT uses 6 decimals. usdtMicroPerGram is whole micro-USDT units per gram (e.g. 150_000_000 = $150 per gram).
  */
 contract CobaGoldBackedNFT is ERC721, Ownable {
@@ -23,7 +23,7 @@ contract CobaGoldBackedNFT is ERC721, Ownable {
 
     uint256 public totalMinted;
 
-    uint256 public constant MAX_SUPPLY = 1_000_000;
+    uint256 public constant MAX_SUPPLY = 9_000_000_000;
 
     /// @notice Max NFTs per mint transaction (gas limit safety).
     uint256 public constant MAX_MINT_PER_TX = 20;
@@ -40,6 +40,7 @@ contract CobaGoldBackedNFT is ERC721, Ownable {
     event UsdtMicroPerGramUpdated(uint256 value);
     event BaseURIUpdated(string baseURI);
     event Minted(address indexed to, uint256 quantity, uint256 firstId, uint256 lastId);
+    event Redeemed(address indexed from, uint256 indexed tokenId, uint256 usdtPaid);
 
     constructor(
         address usdt_,
@@ -102,5 +103,39 @@ contract CobaGoldBackedNFT is ERC721, Ownable {
             _safeMint(msg.sender, id);
         }
         emit Minted(msg.sender, quantity, first, _nextTokenId - 1);
+    }
+
+    /**
+     * @notice Sell/redeem one NFT back for USDT at the current on-chain gold price.
+     * @dev Pays `usdtForOneNft()` at execution time (tracks live `usdtMicroPerGram`).
+     *      Requires `treasury` to have funded USDT and approved this contract to spend it.
+     */
+    function redeem(uint256 tokenId) external {
+        address owner = _ownerOf(tokenId);
+        require(owner != address(0), "no token");
+        require(owner == msg.sender, "not owner");
+        require(
+            _isAuthorized(owner, msg.sender, tokenId),
+            "nft approval"
+        );
+
+        uint256 payout = usdtForOneNft();
+        require(payout > 0, "price");
+
+        _burn(tokenId);
+
+        usdt.safeTransferFrom(treasury, msg.sender, payout);
+
+        emit Redeemed(msg.sender, tokenId, payout);
+    }
+
+    /// @notice USDT allowance from treasury → this contract (must be >= payout for redeems).
+    function treasuryUsdtAllowance() external view returns (uint256) {
+        return usdt.allowance(treasury, address(this));
+    }
+
+    /// @notice True if `spender` is approved to operate `tokenId` for `owner` (or operator for all).
+    function isNftTransferAllowed(address owner, address spender, uint256 tokenId) external view returns (bool) {
+        return _isAuthorized(owner, spender, tokenId);
     }
 }
