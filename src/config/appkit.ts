@@ -39,6 +39,18 @@ const explorerWalletIds = [
   '971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709', // OKX Wallet
 ]
 
+const customWallets = [
+  {
+    id: 'coba-coinbase',
+    name: 'Coinbase Wallet',
+    image_url: 'https://cdn.svgrepo.com/show/330202/coinbase.svg',
+    homepage: 'https://www.coinbase.com/wallet',
+    mobile_link: 'cbwallet://',
+    desktop_link: 'https://www.coinbase.com/wallet',
+    webapp_link: 'https://www.coinbase.com/wallet',
+  },
+]
+
 export const wagmiAdapter = new WagmiAdapter({
   networks,
   projectId,
@@ -50,13 +62,15 @@ createAppKit({
   networks,
   projectId,
   metadata,
+  customWallets,
   // Show popular wallets as first-class choices using official WalletGuide entries.
   featuredWalletIds: [
     explorerWalletIds[0], // MetaMask
     explorerWalletIds[1], // Trust Wallet
-    explorerWalletIds[2], // Coinbase Wallet
     explorerWalletIds[3], // OKX Wallet
   ],
+  // Hide WalletGuide Coinbase entry ("Base") and show our explicit Coinbase Wallet tile instead.
+  excludeWalletIds: [explorerWalletIds[2]],
   // Avoid duplicate/renamed Coinbase SDK tile ("Base") in the list.
   enableCoinbase: false,
   enableWallets: true, // required for WalletConnect QR code when user picks a wallet
