@@ -149,9 +149,9 @@ export const translations = {
     scrollTop: 'Наверх',
     nftMint: {
       documentTitle: 'COBA — Gold NFT',
-      title: 'Золотой NFT (9,6 г)',
+      title: 'Золотой COBA (9,6 г)',
       subtitle:
-        'Купите NFT за USDT или верните NFT за USDT по текущей цене в контракте (9,6 × USDT за грамм). Физическое золото и правовой статус — по вашим документам вне блокчейна.',
+        'Поменяйте COBA на USDT или верните COBA за USDT по текущей цене в контракте (9,6 × USDT за грамм). Физическое золото и правовой статус — по вашим документам вне блокчейна.',
       backHome: 'На главную',
       connect: 'Подключить кошелёк',
       notConfigured:
