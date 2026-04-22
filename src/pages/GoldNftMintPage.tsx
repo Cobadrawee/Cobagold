@@ -301,7 +301,7 @@ export default function GoldNftMintPage({
           transition={{ duration: 0.4 }}
           className="mx-auto max-w-lg"
         >
-          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">{t.title}</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-amber-400 sm:text-4xl">{t.title}</h1>
           <p className="mt-4 text-sm leading-relaxed text-zinc-400">{t.subtitle}</p>
 
           {!configured && (
