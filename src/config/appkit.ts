@@ -37,7 +37,6 @@ const explorerWalletIds = [
   '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0', // Trust Wallet
   'fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa', // Coinbase Wallet
   '971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709', // OKX Wallet
-  '2fafea35bb471d22889ccb49c08d99dd0a18a37982602c33f696a5723934ba25', // Binance Web3 Wallet
 ]
 
 export const wagmiAdapter = new WagmiAdapter({
@@ -57,8 +56,9 @@ createAppKit({
     explorerWalletIds[1], // Trust Wallet
     explorerWalletIds[2], // Coinbase Wallet
     explorerWalletIds[3], // OKX Wallet
-    explorerWalletIds[4], // Binance Web3 Wallet
   ],
+  // Avoid duplicate/renamed Coinbase SDK tile ("Base") in the list.
+  enableCoinbase: false,
   enableWallets: true, // required for WalletConnect QR code when user picks a wallet
   features: {
     email: false,
