@@ -46,8 +46,9 @@ const customWallets = [
     image_url: 'https://cdn.svgrepo.com/show/330202/coinbase.svg',
     homepage: 'https://www.coinbase.com/wallet',
     mobile_link: 'cbwallet://',
-    desktop_link: 'https://www.coinbase.com/wallet',
-    webapp_link: 'https://www.coinbase.com/wallet',
+    // Avoid broken desktop/web redirects; keep only mobile deep-link + QR handoff.
+    desktop_link: null,
+    webapp_link: null,
   },
 ]
 
@@ -73,12 +74,16 @@ createAppKit({
   excludeWalletIds: [explorerWalletIds[2]],
   // Avoid duplicate/renamed Coinbase SDK tile ("Base") in the list.
   enableCoinbase: false,
+  // "Browser" path relies on injected extensions and often shows "Not detected" for most users.
+  // We keep WalletConnect (QR/mobile) as the reliable flow across wallets.
+  enableInjected: false,
   enableWallets: true, // required for WalletConnect QR code when user picks a wallet
   features: {
     email: false,
     socials: false,
     allWallets: true,
     swaps: true,
+    connectMethodsOrder: ['wallet'],
     connectorTypeOrder: ['featured', 'custom', 'recommended', 'walletConnect', 'injected', 'recent', 'external'],
   },
   themeMode: 'dark',
