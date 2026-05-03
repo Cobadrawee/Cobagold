@@ -334,7 +334,7 @@ export default function GoldNftMintPage({
                     <button
                       type="button"
                       onClick={() => setMode('mint')}
-                      className={`flex-1 rounded-lg py-2 text-xs font-semibold transition-colors ${
+                      className={`flex-1 whitespace-pre-line rounded-lg py-2 text-xs font-semibold leading-tight transition-colors ${
                         mode === 'mint' ? 'bg-amber-500 text-amber-950' : 'text-zinc-400 hover:text-white'
                       }`}
                     >
@@ -343,7 +343,7 @@ export default function GoldNftMintPage({
                     <button
                       type="button"
                       onClick={() => setMode('redeem')}
-                      className={`flex-1 rounded-lg py-2 text-xs font-semibold transition-colors ${
+                      className={`flex-1 whitespace-pre-line rounded-lg py-2 text-xs font-semibold leading-tight transition-colors ${
                         mode === 'redeem' ? 'bg-amber-500 text-amber-950' : 'text-zinc-400 hover:text-white'
                       }`}
                     >
