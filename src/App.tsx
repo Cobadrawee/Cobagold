@@ -437,8 +437,8 @@ function App({
               >
                 {[
                   { label: t.hero.currentPrice, value: liveCurrentPriceText, accent: true },
-                  { label: t.hero.totalSupply, value: locale === 'ru' ? '9.0 млрд' : '9.0B', accent: false },
                   { label: t.hero.goldPerToken, value: locale === 'ru' ? '9,6 гр.' : '9.6 g', accent: true },
+                  { label: t.tokenomics.annualEmission, value: locale === 'ru' ? '9.0 млрд' : '9.0B', accent: false },
                 ].map((stat) => (
                   <motion.div
                     key={stat.label}
