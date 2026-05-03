@@ -24,6 +24,12 @@ export default function GoldMedallion() {
           aria-hidden
         />
 
+        {/* Backplate matches site bg (--bg 10 10 13) so the coin sits in the UI, not on a photo studio black */}
+        <div
+          className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_42%,_rgba(251,191,36,0.14)_0%,_rgba(10,10,13,0.92)_52%,_rgb(10,10,13)_100%)] ring-1 ring-amber-500/15"
+          aria-hidden
+        />
+
         <motion.div
           className="absolute inset-0 overflow-hidden rounded-full"
           animate={{ y: [0, -4, 0] }}
@@ -32,7 +38,7 @@ export default function GoldMedallion() {
           <img
             src="/coba-hero-medallion.png"
             alt="COBA medallion"
-            className="h-full w-full object-contain drop-shadow-[0_0_28px_rgba(245,179,1,0.25)]"
+            className="relative z-10 h-full w-full object-contain [filter:drop-shadow(0_12px_28px_rgba(0,0,0,0.45))_drop-shadow(0_0_20px_rgba(245,179,1,0.35))]"
           />
         </motion.div>
       </motion.div>
