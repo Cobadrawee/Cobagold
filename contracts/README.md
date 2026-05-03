@@ -1,5 +1,8 @@
 # COBA Gold-backed NFT (smart contract)
 
+**Start here — one ordered list of everything you must do (simple):**  
+→ **[COMPLETE_TASK_LIST.md](./COMPLETE_TASK_LIST.md)**
+
 **Full beginner guide (Trust Wallet, USDT type, Remix deploy, Etherscan, website):**  
 → **[NFT_PUBLISH_STEP_BY_STEP.md](./NFT_PUBLISH_STEP_BY_STEP.md)**
 
