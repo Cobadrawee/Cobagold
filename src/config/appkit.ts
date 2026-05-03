@@ -89,7 +89,7 @@ createAppKit({
   },
   themeMode: 'dark',
   themeVariables: {
-    '--w3m-accent': '#f59e0b',
+    '--w3m-accent': '#a38242',
     '--w3m-border-radius-master': '2px',
   },
   debug: import.meta.env.DEV && !!import.meta.env.VITE_APPKIT_DEBUG, // set VITE_APPKIT_DEBUG=1 to see connection errors

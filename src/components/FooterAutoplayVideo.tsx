@@ -54,7 +54,7 @@ export default function FooterAutoplayVideo({ src }: { src: string }) {
   return (
     <div ref={shellRef} className="flex w-full min-w-0 justify-center">
       <div
-        className="relative overflow-hidden rounded-lg border border-amber-500/25 shadow-md ring-1 ring-white/5"
+        className="relative overflow-hidden rounded-lg border border-gold-500/25 shadow-md ring-1 ring-white/5"
         style={
           box
             ? { width: box.w, height: box.h }

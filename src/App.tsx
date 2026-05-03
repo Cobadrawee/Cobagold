@@ -234,9 +234,9 @@ function App({
     <div className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
       {/* Ambient background layers */}
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-amber-500/15 via-amber-600/5 to-transparent blur-3xl" />
-        <div className="absolute bottom-0 left-1/4 right-0 h-[400px] bg-gradient-to-t from-amber-900/10 via-transparent to-transparent blur-3xl" />
-        <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-amber-500/5 blur-[100px]" />
+        <div className="absolute inset-x-0 top-0 h-[520px] bg-gradient-to-b from-gold-500/15 via-gold-600/5 to-transparent blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 right-0 h-[400px] bg-gradient-to-t from-gold-900/10 via-transparent to-transparent blur-3xl" />
+        <div className="absolute top-1/3 right-0 h-96 w-96 rounded-full bg-gold-500/5 blur-[100px]" />
       </div>
 
       {/* Header */}
@@ -276,7 +276,7 @@ function App({
             ))}
             <Link
               to="/mint-nft"
-              className="nav-link text-sm text-zinc-400 transition-colors hover:text-amber-300"
+              className="nav-link text-sm text-zinc-400 transition-colors hover:text-gold-300"
             >
               {t.nav.nftMint}
             </Link>
@@ -294,7 +294,7 @@ function App({
             <motion.button
               type="button"
               onClick={() => setLocale((prev) => (prev === 'ru' ? 'en' : 'ru'))}
-              className="hidden rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:border-amber-500/30 hover:bg-amber-500/10 hover:text-amber-300 sm:inline-block"
+              className="hidden rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:border-gold-500/30 hover:bg-gold-500/10 hover:text-gold-300 sm:inline-block"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
@@ -329,7 +329,7 @@ function App({
                       onClick={() => setLocale('ru')}
                       className={`min-w-[3.1rem] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                         locale === 'ru'
-                          ? 'bg-amber-500 text-amber-950'
+                          ? 'bg-gold-500 text-gold-950'
                           : 'text-zinc-300 hover:text-white'
                       }`}
                       aria-label="Switch to Russian"
@@ -341,7 +341,7 @@ function App({
                       onClick={() => setLocale('en')}
                       className={`min-w-[3.1rem] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                         locale === 'en'
-                          ? 'bg-amber-500 text-amber-950'
+                          ? 'bg-gold-500 text-gold-950'
                           : 'text-zinc-300 hover:text-white'
                       }`}
                       aria-label="Switch to English"
@@ -352,7 +352,7 @@ function App({
                   <Link
                     to="/mint-nft"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-2 text-center text-xs font-medium text-amber-300"
+                    className="rounded-full border border-gold-500/25 bg-gold-500/10 px-3 py-2 text-center text-xs font-medium text-gold-300"
                   >
                     {t.nav.nftMint}
                   </Link>
@@ -385,12 +385,12 @@ function App({
           <div className="grid gap-12 md:grid-cols-2 md:items-center md:gap-16">
             <div className="space-y-8">
               <motion.div
-                className="glow-pulse inline-flex items-center gap-2 rounded-full border border-amber-500/25 bg-amber-500/10 px-4 py-2 text-xs font-medium text-amber-300"
+                className="glow-pulse inline-flex items-center gap-2 rounded-full border border-gold-500/25 bg-gold-500/10 px-4 py-2 text-xs font-medium text-gold-300"
                 initial={{ opacity: 0, y: -12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: 'spring', stiffness: 100, damping: 20 }}
               >
-                <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                <span className="h-2 w-2 rounded-full bg-gold-400 animate-pulse" />
                 <span>{t.hero.badge}</span>
               </motion.div>
 
@@ -447,7 +447,7 @@ function App({
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   >
                     <p className="text-xs uppercase tracking-widest text-zinc-500">{stat.label}</p>
-                    <p className={`mt-1 text-2xl font-semibold ${stat.accent ? 'text-amber-400' : ''}`}>{stat.value}</p>
+                    <p className={`mt-1 text-2xl font-semibold ${stat.accent ? 'text-gold-400' : ''}`}>{stat.value}</p>
                   </motion.div>
                 ))}
               </motion.div>
@@ -473,7 +473,7 @@ function App({
                 whileHover={{ scale: 1.03, y: -4 }}
               >
                 <motion.span
-                  className="text-3xl font-bold text-amber-400 md:text-4xl"
+                  className="text-3xl font-bold text-gold-400 md:text-4xl"
                   initial={{ scale: 0.8, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true }}
@@ -504,7 +504,7 @@ function App({
                 transition={{ type: 'spring', stiffness: 80, damping: 20, delay: i * 0.12 }}
                 whileHover={{ y: -8, scale: 1.02 }}
               >
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-amber-500/8 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-gold-500/8 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <motion.div
                   className="relative"
                   initial={{ scale: 0.95 }}
@@ -512,7 +512,7 @@ function App({
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.12 + 0.2 }}
                 >
-                  <span className="text-3xl text-amber-400/90">{['◆', '◇', '○'][i]}</span>
+                  <span className="text-3xl text-gold-400/90">{['◆', '◇', '○'][i]}</span>
                   <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
                   <p className="mt-2 text-sm text-zinc-400">{item.desc}</p>
                 </motion.div>
@@ -552,8 +552,8 @@ function App({
                 transition={{ type: 'spring', stiffness: 75, damping: 20, delay: i * 0.08 }}
                 whileHover={{ y: -6, transition: { duration: 0.2 } }}
               >
-                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-amber-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <span className="text-2xl text-amber-400/80">{['◇', '◆', '○', '◇'][i]}</span>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gold-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="text-2xl text-gold-400/80">{['◇', '◆', '○', '◇'][i]}</span>
                 <h3 className="mt-4 text-lg font-semibold">{item.title}</h3>
                 <p className="mt-2 text-sm text-zinc-400">{item.desc}</p>
               </motion.div>
@@ -585,7 +585,7 @@ function App({
           </motion.div>
 
           <div className="surface-strong relative overflow-hidden p-6 md:p-8">
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(251,191,36,0.08),transparent_60%),radial-gradient(circle_at_right,_rgba(212,175,55,0.06),transparent_60%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(205,180,120,0.07),transparent_60%),radial-gradient(circle_at_right,_rgba(185,151,88,0.06),transparent_60%)]" />
             <motion.div
               className="relative hover-glow-border flex flex-col gap-2 rounded-xl border border-white/5 bg-zinc-900/60 p-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4"
               initial={{ opacity: 0, y: 24, scale: 0.97 }}
@@ -596,12 +596,12 @@ function App({
             >
               <p className="text-zinc-300">
                 {t.tokenomics.goldPriceLabelBefore}
-                <span className="text-amber-400">{t.tokenomics.goldPrice9}</span>
+                <span className="text-gold-400">{t.tokenomics.goldPrice9}</span>
                 {t.tokenomics.goldPriceLabelAfter}
               </p>
               <div className="flex flex-col items-end gap-1 sm:shrink-0 sm:items-baseline sm:gap-3">
                 <div className="flex items-baseline gap-3">
-                  <span className="text-3xl font-bold text-amber-300 sm:text-4xl">
+                  <span className="text-3xl font-bold text-gold-300 sm:text-4xl">
                     {gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : '—'}
                   </span>
                   <span
@@ -623,7 +623,7 @@ function App({
 
             {/* Token details */}
             <motion.h3
-              className="relative mt-10 mb-4 text-sm font-semibold uppercase tracking-wider text-amber-400/90"
+              className="relative mt-10 mb-4 text-sm font-semibold uppercase tracking-wider text-gold-400/90"
               initial={{ opacity: 0, y: 8 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -676,15 +676,15 @@ function App({
             {t.security.items.map((item, i) => (
               <motion.div
                 key={item.title}
-                className="surface hover-glow-border relative overflow-hidden rounded-2xl border border-amber-500/10 p-8"
+                className="surface hover-glow-border relative overflow-hidden rounded-2xl border border-gold-500/10 p-8"
                 initial={{ opacity: 0, y: 28 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.4 }}
                 transition={{ type: 'spring', stiffness: 80, damping: 22, delay: i * 0.12 }}
-                whileHover={{ y: -6, borderColor: 'rgba(251,191,36,0.2)' }}
+                whileHover={{ y: -6, borderColor: 'rgba(185, 151, 88, 0.22)' }}
               >
                 <motion.span
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-amber-500/15 text-lg font-bold text-amber-400"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-gold-500/15 text-lg font-bold text-gold-400"
                   initial={{ rotate: -10, scale: 0.9 }}
                   whileInView={{ rotate: 0, scale: 1 }}
                   viewport={{ once: true }}
@@ -744,8 +744,8 @@ function App({
                   }}
                   whileHover={{ y: -10, scale: 1.02 }}
                 >
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-amber-500/10 to-transparent opacity-60" />
-                  <span className="text-4xl font-bold text-amber-500/40">{item.step}</span>
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gold-500/10 to-transparent opacity-60" />
+                  <span className="text-4xl font-bold text-gold-500/40">{item.step}</span>
                   <h3 className="mt-4 text-xl font-semibold">{item.title}</h3>
                   <p className="mt-3 text-zinc-400">{item.desc}</p>
                 </motion.div>
@@ -773,12 +773,12 @@ function App({
               {t.about.whyGold}
             </motion.h3>
             <motion.div
-              className="flex flex-wrap justify-center gap-16 rounded-2xl border border-amber-500/20 bg-amber-950/20 p-10"
+              className="flex flex-wrap justify-center gap-16 rounded-2xl border border-gold-500/20 bg-gold-950/20 p-10"
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ type: 'spring', stiffness: 70, damping: 22 }}
-              whileHover={{ borderColor: 'rgba(251,191,36,0.35)' }}
+              whileHover={{ borderColor: 'rgba(185, 151, 88, 0.32)' }}
             >
               <motion.div
                 className="text-center"
@@ -788,7 +788,7 @@ function App({
                 transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <p className="text-4xl font-bold text-amber-400">5,000+</p>
+                <p className="text-4xl font-bold text-gold-400">5,000+</p>
                 <p className="mt-1 text-sm text-zinc-400">{t.about.yearsGold}</p>
               </motion.div>
               <motion.div
@@ -799,7 +799,7 @@ function App({
                 transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <p className="text-4xl font-bold text-amber-400">24/7</p>
+                <p className="text-4xl font-bold text-gold-400">24/7</p>
                 <p className="mt-1 text-sm text-zinc-400">{t.about.trading}</p>
               </motion.div>
             </motion.div>
@@ -825,7 +825,7 @@ function App({
           </motion.div>
 
           <div className="relative">
-            <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-amber-500/50 via-amber-500/30 to-transparent md:left-1/2 md:-translate-x-1/2" />
+            <div className="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-gold-500/50 via-gold-500/30 to-transparent md:left-1/2 md:-translate-x-1/2" />
             <div className="space-y-12">
               {t.roadmap.phases.map((phase, i) => {
                 const status = i === t.roadmap.phases.length - 1 ? t.roadmap.inProgress : t.roadmap.completed
@@ -848,13 +848,13 @@ function App({
                       <span
                         className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
                           status === t.roadmap.inProgress
-                            ? 'bg-amber-500/20 text-amber-400'
+                            ? 'bg-gold-500/20 text-gold-400'
                             : 'bg-emerald-500/20 text-emerald-400'
                         }`}
                       >
                         {status}
                       </span>
-                      <p className="mt-3 text-sm font-semibold text-amber-400">{phase.quarter}</p>
+                      <p className="mt-3 text-sm font-semibold text-gold-400">{phase.quarter}</p>
                       <h3 className="mt-2 text-xl font-semibold">{phase.title}</h3>
                       <p className="mt-2 text-sm text-zinc-400">{phase.desc}</p>
                       <ul className="mt-4 space-y-2">
@@ -867,7 +867,7 @@ function App({
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.08 + j * 0.04 }}
                           >
-                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" />
+                            <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400" />
                             {item}
                           </motion.li>
                         ))}
@@ -875,7 +875,7 @@ function App({
                     </motion.div>
                   </div>
                   <motion.div
-                    className="absolute left-4 top-6 h-4 w-4 rounded-full border-2 border-amber-500 bg-[rgb(var(--bg))] md:left-1/2 md:-translate-x-1/2"
+                    className="absolute left-4 top-6 h-4 w-4 rounded-full border-2 border-gold-500 bg-[rgb(var(--bg))] md:left-1/2 md:-translate-x-1/2"
                     initial={{ scale: 0 }}
                     whileInView={{ scale: 1 }}
                     viewport={{ once: true }}
@@ -887,12 +887,12 @@ function App({
             </div>
 
             <motion.div
-              className="mt-12 rounded-2xl border border-amber-500/20 bg-amber-950/10 p-6 text-center"
+              className="mt-12 rounded-2xl border border-gold-500/20 bg-gold-950/10 p-6 text-center"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ type: 'spring', stiffness: 70, damping: 22 }}
-              whileHover={{ borderColor: 'rgba(251,191,36,0.35)', scale: 1.01 }}
+              whileHover={{ borderColor: 'rgba(185, 151, 88, 0.32)', scale: 1.01 }}
             >
               <h3 className="text-lg font-semibold">{t.roadmap.futureTitle}</h3>
               <p className="mt-2 text-zinc-400">
@@ -923,7 +923,7 @@ function App({
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ type: 'spring', stiffness: 100, damping: 22, delay: i * 0.1 }}
-                whileHover={{ scale: 1.05, color: 'rgb(251 191 36)', borderColor: 'rgba(251,191,36,0.3)' }}
+                whileHover={{ scale: 1.05, color: 'rgb(185 151 88)', borderColor: 'rgba(185, 151, 88, 0.28)' }}
               >
                 {name}
               </motion.div>
@@ -936,7 +936,7 @@ function App({
         {/* Final CTA – connect wallet */}
         <section className="container-page relative py-16 md:py-24">
           <motion.div
-            className="relative overflow-hidden rounded-3xl border border-amber-500/20 bg-gradient-to-br from-amber-950/30 via-amber-900/10 to-transparent p-10 md:p-16"
+            className="relative overflow-hidden rounded-3xl border border-gold-500/20 bg-gradient-to-br from-gold-950/30 via-gold-900/10 to-transparent p-10 md:p-16"
             initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.4 }}
@@ -946,7 +946,7 @@ function App({
             <div className="pointer-events-none absolute -left-28 bottom-0 hidden md:block scale-75 opacity-60">
               <GoldOrb />
             </div>
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(251,191,36,0.08),transparent_70%)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(205,180,120,0.07),transparent_70%)]" />
             <div className="relative flex flex-col items-center text-center">
               <motion.h2
                 className="text-2xl font-semibold sm:text-3xl md:text-4xl"
@@ -975,7 +975,7 @@ function App({
               >
                 <Link
                   to="/mint-nft"
-                  className="inline-flex rounded-full bg-gradient-to-r from-amber-500 to-amber-600 px-8 py-4 text-base font-semibold text-amber-950 shadow-lg shadow-amber-500/30 transition-all hover:scale-105 hover:shadow-amber-500/50 active:scale-[0.98]"
+                  className="inline-flex rounded-full bg-gradient-to-r from-gold-500 to-gold-600 px-8 py-4 text-base font-semibold text-gold-950 shadow-lg shadow-gold-500/30 transition-all hover:scale-105 hover:shadow-gold-500/50 active:scale-[0.98]"
                 >
                   {t.cta.button}
                 </Link>
@@ -1001,12 +1001,12 @@ function App({
               <p className="max-w-xl text-zinc-400">
                 {t.contact.subtitle}
               </p>
-              <p className="font-mono text-amber-400">info@cobagold.com</p>
+              <p className="font-mono text-gold-400">info@cobagold.com</p>
             </div>
             <motion.button
               type="button"
               onClick={handleContactUs}
-              className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 px-6 py-3.5 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/30 transition-all hover:shadow-amber-500/50"
+              className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-6 py-3.5 text-sm font-semibold text-gold-950 shadow-lg shadow-gold-500/30 transition-all hover:shadow-gold-500/50"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -1045,11 +1045,11 @@ function App({
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') handleSubscribe()
                 }}
-                className="flex-1 rounded-lg border border-white/10 bg-black/30 px-4 py-3 text-sm outline-none ring-amber-500/50 transition-all focus:border-amber-500/50 focus:ring-2"
+                className="flex-1 rounded-lg border border-white/10 bg-black/30 px-4 py-3 text-sm outline-none ring-gold-500/50 transition-all focus:border-gold-500/50 focus:ring-2"
               />
               <motion.button
                 type="button"
-                className="rounded-lg bg-amber-500 px-6 py-3 text-sm font-semibold text-amber-950 transition-colors hover:bg-amber-400 sm:whitespace-nowrap"
+                className="rounded-lg bg-gold-500 px-6 py-3 text-sm font-semibold text-gold-950 transition-colors hover:bg-gold-400 sm:whitespace-nowrap"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSubscribe}
@@ -1091,7 +1091,7 @@ function App({
                 <p className="max-w-sm text-sm text-zinc-500">
                   {t.footer.tagline}
                 </p>
-                <a href="mailto:info@cobagold.com" className="font-mono text-sm text-amber-400 hover:text-amber-300 transition-colors">
+                <a href="mailto:info@cobagold.com" className="font-mono text-sm text-gold-400 hover:text-gold-300 transition-colors">
                   info@cobagold.com
                 </a>
               </div>
@@ -1137,7 +1137,7 @@ function App({
           <motion.button
             type="button"
             aria-label={t.scrollTop}
-            className="fixed bottom-6 right-6 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-amber-500/30 bg-[rgb(var(--bg))]/90 text-amber-400 shadow-lg backdrop-blur-sm hover:border-amber-500/50 hover:bg-amber-500/10"
+            className="fixed bottom-6 right-6 z-30 flex h-11 w-11 items-center justify-center rounded-full border border-gold-500/30 bg-[rgb(var(--bg))]/90 text-gold-400 shadow-lg backdrop-blur-sm hover:border-gold-500/50 hover:bg-gold-500/10"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 12 }}

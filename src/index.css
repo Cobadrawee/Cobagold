@@ -2,13 +2,14 @@
 
 @layer base {
   :root {
-    --bg: 10 10 13;
-    --fg: 250 250 252;
-    --muted: 161 161 170;
-    --gold: 212 175 55;
-    --gold-light: 252 211 77;
-    --gold-dark: 184 134 11;
-    --glow: 251 191 36;
+    /* Warm near-black — reads richer with metallic gold than flat blue-grey #0a0a0d */
+    --bg: 20 17 15;
+    --fg: 250 248 245;
+    --muted: 168 162 156;
+    --gold: 185 151 88;
+    --gold-light: 226 210 179;
+    --gold-dark: 138 109 55;
+    --glow: 205 180 120;
   }
 
   html {
@@ -75,22 +76,22 @@
 
   .surface {
     border-radius: 1rem;
-    border: 1px solid rgb(255 255 255 / 0.1);
-    background: rgb(255 255 255 / 0.03);
+    border: 1px solid rgb(255 255 255 / 0.07);
+    background: rgb(255 255 255 / 0.035);
     backdrop-filter: blur(12px);
   }
 
   .surface-strong {
     border-radius: 1rem;
-    border: 1px solid rgb(255 255 255 / 0.1);
-    background: rgb(255 255 255 / 0.05);
+    border: 1px solid rgb(255 255 255 / 0.08);
+    background: rgb(255 255 255 / 0.055);
     backdrop-filter: blur(12px);
   }
 
   .surface-gold {
     border-radius: 1rem;
-    border: 1px solid rgb(245 158 11 / 0.2);
-    background: rgb(69 26 3 / 0.2);
+    border: 1px solid rgb(var(--gold) / 0.22);
+    background: rgb(var(--gold-dark) / 0.12);
     backdrop-filter: blur(12px);
   }
 
@@ -112,7 +113,12 @@
     border-radius: inherit;
     pointer-events: none;
     padding: 1px;
-    background: linear-gradient(135deg, rgba(251,191,36,0.4), rgba(212,175,55,0.2), rgba(184,134,11,0.4));
+    background: linear-gradient(
+      135deg,
+      rgb(var(--glow) / 0.35),
+      rgb(var(--gold) / 0.2),
+      rgb(var(--gold-dark) / 0.35)
+    );
     -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -127,7 +133,14 @@
   /* Section divider with gradient line */
   .section-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(251,191,36,0.25), rgba(212,175,55,0.4), rgba(251,191,36,0.25), transparent);
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgb(var(--glow) / 0.22),
+      rgb(var(--gold) / 0.35),
+      rgb(var(--glow) / 0.22),
+      transparent
+    );
     opacity: 0.6;
   }
 
@@ -263,7 +276,12 @@
 }
 
 .gradient-text-gold {
-  background: linear-gradient(90deg, rgb(253 230 138), rgb(250 204 21), rgb(253 230 138));
+  background: linear-gradient(
+    90deg,
+    rgb(var(--gold-light)),
+    rgb(var(--gold)),
+    rgb(var(--gold-light))
+  );
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;

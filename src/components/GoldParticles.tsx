@@ -2,8 +2,8 @@ import { motion } from 'framer-motion'
 import { useMemo } from 'react'
 
 const COLORS = [
-  'rgba(251,191,36,0.6)',
-  'rgba(212,175,55,0.5)',
+  'rgba(205,180,120,0.5)',
+  'rgba(185,151,88,0.45)',
   'rgba(250,204,21,0.45)',
   'rgba(245,158,11,0.5)',
 ]

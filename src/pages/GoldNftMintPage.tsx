@@ -259,7 +259,7 @@ export default function GoldNftMintPage({
   return (
     <div className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-amber-500/12 via-transparent to-transparent blur-3xl" />
+        <div className="absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-gold-500/12 via-transparent to-transparent blur-3xl" />
       </div>
 
       <header className="sticky top-0 z-20 border-b border-white/5 bg-[rgb(var(--bg))]/90 backdrop-blur-xl">
@@ -275,11 +275,11 @@ export default function GoldNftMintPage({
             <button
               type="button"
               onClick={() => setLocale((prev) => (prev === 'ru' ? 'en' : 'ru'))}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:border-amber-500/30 hover:bg-amber-500/10 hover:text-amber-300"
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:border-gold-500/30 hover:bg-gold-500/10 hover:text-gold-300"
             >
               {locale === 'ru' ? 'RU' : 'EN'}
             </button>
-            <Link to="/" className="text-sm font-medium text-amber-400 transition-colors hover:text-amber-300">
+            <Link to="/" className="text-sm font-medium text-gold-400 transition-colors hover:text-gold-300">
               {t.backHome}
             </Link>
           </div>
@@ -293,11 +293,11 @@ export default function GoldNftMintPage({
           transition={{ duration: 0.4 }}
           className="mx-auto max-w-lg"
         >
-          <h1 className="text-3xl font-semibold tracking-tight text-amber-400 sm:text-4xl">{t.title}</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-gold-400 sm:text-4xl">{t.title}</h1>
           <p className="mt-4 text-sm leading-relaxed text-zinc-400">{t.subtitle}</p>
 
           {!configured && (
-            <div className="mt-8 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-5 text-sm text-amber-200/90">
+            <div className="mt-8 rounded-2xl border border-gold-500/25 bg-gold-500/10 p-5 text-sm text-gold-200/90">
               {t.notConfigured}
             </div>
           )}
@@ -322,7 +322,7 @@ export default function GoldNftMintPage({
                 <button
                   type="button"
                   onClick={() => open({ view: 'Connect' })}
-                  className="mt-8 w-full rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 py-3.5 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/25"
+                  className="mt-8 w-full rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 py-3.5 text-sm font-semibold text-gold-950 shadow-lg shadow-gold-500/25"
                 >
                   {t.connect}
                 </button>
@@ -335,7 +335,7 @@ export default function GoldNftMintPage({
                       type="button"
                       onClick={() => setMode('mint')}
                       className={`flex-1 whitespace-pre-line rounded-lg py-2 text-xs font-semibold leading-tight transition-colors ${
-                        mode === 'mint' ? 'bg-amber-500 text-amber-950' : 'text-zinc-400 hover:text-white'
+                        mode === 'mint' ? 'bg-gold-500 text-gold-950' : 'text-zinc-400 hover:text-white'
                       }`}
                     >
                       {t.modeMint}
@@ -344,7 +344,7 @@ export default function GoldNftMintPage({
                       type="button"
                       onClick={() => setMode('redeem')}
                       className={`flex-1 whitespace-pre-line rounded-lg py-2 text-xs font-semibold leading-tight transition-colors ${
-                        mode === 'redeem' ? 'bg-amber-500 text-amber-950' : 'text-zinc-400 hover:text-white'
+                        mode === 'redeem' ? 'bg-gold-500 text-gold-950' : 'text-zinc-400 hover:text-white'
                       }`}
                     >
                       {t.modeRedeem}
@@ -353,7 +353,7 @@ export default function GoldNftMintPage({
 
                   <div className="space-y-1">
                     <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">{t.priceLabel}</p>
-                    <p className="text-2xl font-semibold text-amber-400">
+                    <p className="text-2xl font-semibold text-gold-400">
                       {pricePerNft !== undefined
                         ? `${formatUnits(pricePerNft, 6)} USDT`
                         : '—'}
@@ -381,7 +381,7 @@ export default function GoldNftMintPage({
                             setShowMintSuccess(false)
                             setQuantity(Number(e.target.value) || 1)
                           }}
-                          className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-amber-500/40"
+                          className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-gold-500/40"
                         />
                       </label>
 
@@ -399,7 +399,7 @@ export default function GoldNftMintPage({
                       )}
 
                       {needsApprove && totalCost !== undefined && (
-                        <p className="text-xs text-amber-200/80">{t.needApprove}</p>
+                        <p className="text-xs text-gold-200/80">{t.needApprove}</p>
                       )}
 
                       {!needsApprove && insufficientUsdt && (
@@ -411,7 +411,7 @@ export default function GoldNftMintPage({
                           type="button"
                           disabled={isPending || isConfirming || totalCost === undefined}
                           onClick={handleApprove}
-                          className="w-full rounded-xl border border-amber-500/40 bg-amber-500/10 py-3.5 text-sm font-semibold text-amber-200 transition-colors hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+                          className="w-full rounded-xl border border-gold-500/40 bg-gold-500/10 py-3.5 text-sm font-semibold text-gold-200 transition-colors hover:bg-gold-500/20 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           {isPending || isConfirming ? t.approving : t.approve}
                         </button>
@@ -425,7 +425,7 @@ export default function GoldNftMintPage({
                             insufficientUsdt
                           }
                           onClick={handleMint}
-                          className="w-full rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 py-3.5 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+                          className="w-full rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 py-3.5 text-sm font-semibold text-gold-950 shadow-lg shadow-gold-500/20 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           {isPending || isConfirming ? t.minting : t.mint}
                         </button>
@@ -446,7 +446,7 @@ export default function GoldNftMintPage({
                             setShowRedeemSuccess(false)
                             setTokenIdStr(e.target.value.replaceAll(/[^\d]/g, ''))
                           }}
-                          className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-amber-500/40"
+                          className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-gold-500/40"
                         />
                         {tokenIdBigInt === undefined && tokenIdStr.trim() !== '' && (
                           <span className="mt-1 block text-xs text-red-300/90">{t.invalidTokenId}</span>
@@ -476,7 +476,7 @@ export default function GoldNftMintPage({
                       )}
 
                       {needsNftApprove && (
-                        <p className="text-xs text-amber-200/80">{t.needApproveNft}</p>
+                        <p className="text-xs text-gold-200/80">{t.needApproveNft}</p>
                       )}
 
                       {!treasuryReady && pricePerNft !== undefined && treasuryAllowance !== undefined && (
@@ -488,7 +488,7 @@ export default function GoldNftMintPage({
                           type="button"
                           disabled={isPending || isConfirming || !nftAddress}
                           onClick={handleApproveNft}
-                          className="w-full rounded-xl border border-amber-500/40 bg-amber-500/10 py-3.5 text-sm font-semibold text-amber-200 transition-colors hover:bg-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+                          className="w-full rounded-xl border border-gold-500/40 bg-gold-500/10 py-3.5 text-sm font-semibold text-gold-200 transition-colors hover:bg-gold-500/20 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           {isPending || isConfirming ? t.approvingNft : t.approveNft}
                         </button>
@@ -503,7 +503,7 @@ export default function GoldNftMintPage({
                             !treasuryReady
                           }
                           onClick={handleRedeem}
-                          className="w-full rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 py-3.5 text-sm font-semibold text-amber-950 shadow-lg shadow-amber-500/20 disabled:cursor-not-allowed disabled:opacity-40"
+                          className="w-full rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 py-3.5 text-sm font-semibold text-gold-950 shadow-lg shadow-gold-500/20 disabled:cursor-not-allowed disabled:opacity-40"
                         >
                           {isPending || isConfirming ? t.redeeming : t.redeem}
                         </button>

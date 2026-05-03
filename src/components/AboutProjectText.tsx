@@ -187,18 +187,18 @@ export default function AboutProjectText({
 
   return (
     <div className="relative mt-12 overflow-hidden rounded-2xl border border-white/5 bg-gradient-to-b from-white/[0.03] to-transparent p-8">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(251,191,36,0.14),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(205,180,120,0.12),transparent_60%)]" />
       <div className="relative">
-        <h3 className="text-center text-xl font-semibold text-amber-300">{title}</h3>
+        <h3 className="text-center text-xl font-semibold text-gold-300">{title}</h3>
 
         {highlights.length > 0 && (
           <div className="mx-auto mt-6 flex max-w-3xl flex-col gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
             {highlights.map((h, i) => (
               <div
                 key={`hl-${i}`}
-                className="min-w-0 flex-1 rounded-lg border border-amber-500/20 bg-amber-500/5 px-4 py-3 text-xs leading-relaxed text-amber-100/90 sm:min-w-[200px]"
+                className="min-w-0 flex-1 rounded-lg border border-gold-500/20 bg-gold-500/5 px-4 py-3 text-xs leading-relaxed text-gold-100/90 sm:min-w-[200px]"
               >
-                <span className="mr-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400 align-middle" />
+                <span className="mr-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-gold-400 align-middle" />
                 <span className="break-words">{h}</span>
               </div>
             ))}
@@ -217,11 +217,11 @@ export default function AboutProjectText({
               className={
                 idx === 0
                   ? 'pb-10'
-                  : 'border-t border-amber-500/25 pt-10 pb-10'
+                  : 'border-t border-gold-500/25 pt-10 pb-10'
               }
             >
-              <h4 className="mb-4 flex items-baseline gap-3 border-l-2 border-amber-400/80 pl-4 text-base font-semibold tracking-tight text-zinc-50">
-                <span className="tabular-nums text-xs font-medium text-amber-500/80">
+              <h4 className="mb-4 flex items-baseline gap-3 border-l-2 border-gold-400/80 pl-4 text-base font-semibold tracking-tight text-zinc-50">
+                <span className="tabular-nums text-xs font-medium text-gold-500/80">
                   {String(idx + 1).padStart(2, '0')}
                 </span>
                 <span>{section.heading}</span>
@@ -239,7 +239,7 @@ export default function AboutProjectText({
                 <ul className="mt-5 space-y-2.5 border-l border-white/10 pl-4 text-sm leading-relaxed text-zinc-300">
                   {section.bullets.map((b, i) => (
                     <li key={`${section.id}-b-${i}`} className="flex items-start gap-2.5">
-                      <span className="mt-2 inline-flex h-1 w-1 shrink-0 rounded-full bg-amber-400/90" />
+                      <span className="mt-2 inline-flex h-1 w-1 shrink-0 rounded-full bg-gold-400/90" />
                       <span className="min-w-0 break-words hyphens-auto">{b}</span>
                     </li>
                   ))}
@@ -259,7 +259,7 @@ export default function AboutProjectText({
           <button
             type="button"
             onClick={onToggle}
-            className="inline-flex items-center justify-center rounded-full border border-amber-500/30 bg-transparent px-4 py-2 text-xs font-medium text-amber-300 transition-colors hover:border-amber-500/60 hover:bg-amber-500/10"
+            className="inline-flex items-center justify-center rounded-full border border-gold-500/30 bg-transparent px-4 py-2 text-xs font-medium text-gold-300 transition-colors hover:border-gold-500/60 hover:bg-gold-500/10"
           >
             {expanded ? lessLabel : moreLabel}
           </button>

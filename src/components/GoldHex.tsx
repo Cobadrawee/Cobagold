@@ -34,7 +34,7 @@ export default function GoldHex({ className = '', size = 64 }: { className?: str
         <defs>
           <linearGradient id="hexGold" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="rgba(253,230,138,0.45)" />
-            <stop offset="50%" stopColor="rgba(212,175,55,0.55)" />
+            <stop offset="50%" stopColor="rgba(185,151,88,0.5)" />
             <stop offset="100%" stopColor="rgba(184,134,11,0.45)" />
           </linearGradient>
           <filter id="hexGlow">
@@ -48,7 +48,7 @@ export default function GoldHex({ className = '', size = 64 }: { className?: str
         <motion.polygon
           points={HEX_POINTS}
           fill="url(#hexGold)"
-          stroke="rgba(251,191,36,0.4)"
+          stroke="rgba(205,180,120,0.38)"
           strokeWidth="1.2"
           filter="url(#hexGlow)"
           animate={{ opacity: [0.65, 1, 0.65] }}

@@ -24,7 +24,7 @@ export default function PrivacyPage({
   return (
     <div className="min-h-screen bg-[rgb(var(--bg))] text-[rgb(var(--fg))]">
       <div className="pointer-events-none fixed inset-0 -z-10">
-        <div className="absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-amber-500/12 via-transparent to-transparent blur-3xl" />
+        <div className="absolute inset-x-0 top-0 h-[420px] bg-gradient-to-b from-gold-500/12 via-transparent to-transparent blur-3xl" />
       </div>
 
       <header className="sticky top-0 z-20 border-b border-white/5 bg-[rgb(var(--bg))]/90 backdrop-blur-xl">
@@ -44,13 +44,13 @@ export default function PrivacyPage({
             <button
               type="button"
               onClick={() => setLocale((prev) => (prev === 'ru' ? 'en' : 'ru'))}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:border-amber-500/30 hover:bg-amber-500/10 hover:text-amber-300"
+              className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:border-gold-500/30 hover:bg-gold-500/10 hover:text-gold-300"
             >
               {locale === 'ru' ? 'RU' : 'EN'}
             </button>
             <Link
               to="/"
-              className="text-sm font-medium text-amber-400 transition-colors hover:text-amber-300"
+              className="text-sm font-medium text-gold-400 transition-colors hover:text-gold-300"
             >
               {p.backHome}
             </Link>
@@ -81,8 +81,8 @@ export default function PrivacyPage({
                   transition={{ delay: 0.05 * i }}
                   className="rounded-xl border border-white/5 bg-black/25 p-5"
                 >
-                  <h3 className="flex items-center gap-2 text-sm font-semibold text-amber-300">
-                    <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+                  <h3 className="flex items-center gap-2 text-sm font-semibold text-gold-300">
+                    <span className="h-1.5 w-1.5 rounded-full bg-gold-400" />
                     {item.title}
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-zinc-400">{item.body}</p>
@@ -98,7 +98,7 @@ export default function PrivacyPage({
             <ul className="mt-4 space-y-2 text-sm text-zinc-300">
               {p.policyMeasures.map((line) => (
                 <li key={line} className="flex gap-2">
-                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-amber-400/80" />
+                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold-400/80" />
                   <span>{line}</span>
                 </li>
               ))}
@@ -112,7 +112,7 @@ export default function PrivacyPage({
             <ul className="mt-4 space-y-2 text-sm text-zinc-300">
               {p.rightsItems.map((line) => (
                 <li key={line} className="flex gap-2">
-                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-amber-400/80" />
+                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold-400/80" />
                   <span>{line}</span>
                 </li>
               ))}
@@ -126,7 +126,7 @@ export default function PrivacyPage({
             <ul className="mt-4 space-y-2 text-sm text-zinc-300">
               {p.transfersItems.map((line) => (
                 <li key={line} className="flex gap-2">
-                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-amber-400/80" />
+                  <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gold-400/80" />
                   <span>{line}</span>
                 </li>
               ))}
@@ -141,7 +141,7 @@ export default function PrivacyPage({
           <div className="mt-12 flex justify-center">
             <Link
               to="/"
-              className="inline-flex items-center justify-center rounded-full border border-amber-500/40 bg-amber-500/10 px-6 py-2.5 text-sm font-medium text-amber-300 transition-colors hover:border-amber-500/60 hover:bg-amber-500/15"
+              className="inline-flex items-center justify-center rounded-full border border-gold-500/40 bg-gold-500/10 px-6 py-2.5 text-sm font-medium text-gold-300 transition-colors hover:border-gold-500/60 hover:bg-gold-500/15"
             >
               {p.backHome}
             </Link>

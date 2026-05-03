@@ -23,7 +23,7 @@ export default function FileProtocolBanner({ locale }: { locale: 'ru' | 'en' }) 
       role="alert"
       initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative z-[100] border-b border-amber-500/40 bg-amber-950/95 px-4 py-3 text-center text-xs leading-relaxed text-amber-100 shadow-lg backdrop-blur-sm sm:text-sm"
+      className="relative z-[100] border-b border-gold-500/40 bg-gold-950/95 px-4 py-3 text-center text-xs leading-relaxed text-gold-100 shadow-lg backdrop-blur-sm sm:text-sm"
     >
       {text}
     </motion.div>
