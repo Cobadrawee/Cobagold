@@ -73,13 +73,6 @@ export default function GoldNftMintPage({
     query: { enabled: !!nftAddress && chainId === mainnet.id },
   })
 
-  const { data: maxPerTx } = useReadContract({
-    address: nftAddress,
-    abi: cobaGoldBackedNftAbi,
-    functionName: 'MAX_MINT_PER_TX',
-    query: { enabled: !!nftAddress && chainId === mainnet.id },
-  })
-
   const { data: usdtBalance, refetch: refetchBalance } = useReadContract({
     address: usdtAddress,
     abi: erc20ApproveAbi,
@@ -141,8 +134,7 @@ export default function GoldNftMintPage({
     query: { enabled: !!nftAddress && !!address && chainId === mainnet.id },
   })
 
-  const maxQ = maxPerTx ? Number(maxPerTx) : 20
-  const safeQty = Math.min(Math.max(1, quantity), maxQ)
+  const safeQty = Math.max(1, quantity)
 
   const totalCost = useMemo(() => {
     if (pricePerNft === undefined) return undefined
@@ -385,7 +377,6 @@ export default function GoldNftMintPage({
                         <input
                           type="number"
                           min={1}
-                          max={maxQ}
                           value={safeQty}
                           onChange={(e) => {
                             setShowMintSuccess(false)
@@ -393,9 +384,6 @@ export default function GoldNftMintPage({
                           }}
                           className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-amber-500/40"
                         />
-                        <span className="mt-1 block text-xs text-zinc-600">
-                          {t.maxPerTx}: {maxQ}
-                        </span>
                       </label>
 
                       <div className="flex justify-between border-t border-white/5 pt-4 text-sm">

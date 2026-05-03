@@ -25,9 +25,6 @@ contract CobaGoldBackedNFT is ERC721, Ownable {
 
     uint256 public constant MAX_SUPPLY = 9_000_000_000;
 
-    /// @notice Max NFTs per mint transaction (gas limit safety).
-    uint256 public constant MAX_MINT_PER_TX = 20;
-
     uint256 private _nextTokenId = 1;
 
     string private _baseTokenURI;
@@ -85,10 +82,10 @@ contract CobaGoldBackedNFT is ERC721, Ownable {
     }
 
     /**
-     * @param quantity Number of NFTs to mint (1 .. MAX_MINT_PER_TX).
+     * @param quantity Number of NFTs to mint (must be > 0).
      */
     function mint(uint256 quantity) external {
-        require(quantity > 0 && quantity <= MAX_MINT_PER_TX, "qty");
+        require(quantity > 0, "qty");
         require(totalMinted + quantity <= MAX_SUPPLY, "cap");
 
         uint256 unit = usdtForOneNft();
