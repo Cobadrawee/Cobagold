@@ -66,13 +66,6 @@ export default function GoldNftMintPage({
     query: { enabled: !!nftAddress && chainId === mainnet.id },
   })
 
-  const { data: maxSupply } = useReadContract({
-    address: nftAddress,
-    abi: cobaGoldBackedNftAbi,
-    functionName: 'MAX_SUPPLY',
-    query: { enabled: !!nftAddress && chainId === mainnet.id },
-  })
-
   const { data: usdtBalance, refetch: refetchBalance } = useReadContract({
     address: usdtAddress,
     abi: erc20ApproveAbi,
@@ -363,9 +356,9 @@ export default function GoldNftMintPage({
 
                   <p className="text-xs text-zinc-500">{t.gramsNote}</p>
 
-                  {totalMinted !== undefined && maxSupply !== undefined && (
+                  {totalMinted !== undefined && (
                     <p className="text-sm text-zinc-400">
-                      {t.supply}: {totalMinted.toString()} / {maxSupply.toString()}
+                      {t.supply}: {totalMinted.toString()}
                     </p>
                   )}
 

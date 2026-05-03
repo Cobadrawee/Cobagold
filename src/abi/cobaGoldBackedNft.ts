@@ -44,20 +44,6 @@ export const cobaGoldBackedNftAbi = [
   },
   {
     type: 'function',
-    name: 'MAX_SUPPLY',
-    stateMutability: 'view',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256' }],
-  },
-  {
-    type: 'function',
-    name: 'MAX_MINT_PER_TX',
-    stateMutability: 'view',
-    inputs: [],
-    outputs: [{ name: '', type: 'uint256' }],
-  },
-  {
-    type: 'function',
     name: 'treasury',
     stateMutability: 'view',
     inputs: [],

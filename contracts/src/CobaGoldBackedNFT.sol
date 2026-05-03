@@ -10,6 +10,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
  * @title CobaGoldBackedNFT
  * @notice ERC-721 where each token costs USDT computed as (usdtMicroPerGram * 96 / 10) = 9.6 × micro-USDT per gram.
  * @dev Physical gold backing and compliance are off-chain/legal — this contract enforces USDT payment + mint, and optional on-chain redeem.
+ *      There is no fixed on-chain supply cap; operational limits are off-chain (treasury, policy).
  *      USDT uses 6 decimals. usdtMicroPerGram is whole micro-USDT units per gram (e.g. 150_000_000 = $150 per gram).
  */
 contract CobaGoldBackedNFT is ERC721, Ownable {
@@ -22,8 +23,6 @@ contract CobaGoldBackedNFT is ERC721, Ownable {
     uint256 public usdtMicroPerGram;
 
     uint256 public totalMinted;
-
-    uint256 public constant MAX_SUPPLY = 9_000_000_000;
 
     uint256 private _nextTokenId = 1;
 
@@ -86,7 +85,6 @@ contract CobaGoldBackedNFT is ERC721, Ownable {
      */
     function mint(uint256 quantity) external {
         require(quantity > 0, "qty");
-        require(totalMinted + quantity <= MAX_SUPPLY, "cap");
 
         uint256 unit = usdtForOneNft();
         uint256 totalUsdt = unit * quantity;
