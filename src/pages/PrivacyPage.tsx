@@ -34,7 +34,7 @@ export default function PrivacyPage({
             className="flex items-center gap-3 text-zinc-200 transition-colors hover:text-white"
           >
             <img
-              src="/coba-logo-from-pdf.png"
+              src="/coba-logo-wallet-gold.png"
               alt="COBA"
               className="h-12 w-auto object-contain"
             />

@@ -249,7 +249,7 @@ function App({
             transition={{ type: 'spring', stiffness: 120, damping: 24 }}
           >
             <motion.img
-              src="/coba-logo-from-pdf.png"
+              src="/coba-logo-wallet-gold.png"
               alt="COBA"
               className="h-12 w-auto object-contain"
               whileHover={{ scale: 1.05, rotate: 5 }}
@@ -1090,7 +1090,7 @@ function App({
               <div className="flex flex-col gap-3 md:text-left">
                 <div className="flex items-center gap-2">
                   <motion.img
-                    src="/coba-logo-from-pdf.png"
+                    src="/coba-logo-wallet-gold.png"
                     alt="COBA"
                     className="h-10 w-auto object-contain"
                     whileHover={{ rotate: 12, scale: 1.1 }}
