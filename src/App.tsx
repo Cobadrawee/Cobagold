@@ -481,7 +481,9 @@ function App({
                 whileHover={{ scale: 1.03, y: -4 }}
               >
                 <motion.span
-                  className="text-3xl font-bold text-gold-400 md:text-4xl"
+                  className={`text-3xl font-bold md:text-4xl ${
+                    i === 0 ? 'text-[#D4AF37] [text-shadow:0_0_10px_rgba(212,175,55,0.34)]' : 'text-white'
+                  }`}
                   initial={{ scale: 0.8, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true }}
