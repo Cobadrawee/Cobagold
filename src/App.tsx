@@ -329,7 +329,7 @@ function App({
                       onClick={() => setLocale('ru')}
                       className={`min-w-[3.1rem] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                         locale === 'ru'
-                          ? 'bg-emerald-600 text-white'
+                          ? 'bg-[#0B513F] text-[#09CF91]'
                           : 'text-zinc-300 hover:text-white'
                       }`}
                       aria-label="Switch to Russian"
@@ -341,7 +341,7 @@ function App({
                       onClick={() => setLocale('en')}
                       className={`min-w-[3.1rem] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                         locale === 'en'
-                          ? 'bg-emerald-600 text-white'
+                          ? 'bg-[#0B513F] text-[#09CF91]'
                           : 'text-zinc-300 hover:text-white'
                       }`}
                       aria-label="Switch to English"
@@ -984,7 +984,7 @@ function App({
               >
                 <Link
                   to="/mint-nft"
-                  className="inline-flex rounded-full bg-gradient-to-r from-emerald-600 to-green-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-700/30 transition-all hover:scale-105 hover:shadow-emerald-700/45 active:scale-[0.98]"
+                  className="inline-flex rounded-full border border-[#146B54] bg-[#0B513F] px-8 py-4 text-base font-semibold text-[#09CF91] shadow-lg shadow-[0_12px_28px_rgba(11,81,63,0.35)] transition-all hover:scale-105 hover:bg-[#0F614B] active:scale-[0.98]"
                 >
                   {t.cta.button}
                 </Link>
@@ -1015,7 +1015,7 @@ function App({
             <motion.button
               type="button"
               onClick={handleContactUs}
-              className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-700/30 transition-all hover:shadow-emerald-700/45"
+              className="inline-flex items-center justify-center rounded-xl border border-[#146B54] bg-[#0B513F] px-6 py-3.5 text-sm font-semibold text-[#09CF91] shadow-lg shadow-[0_12px_28px_rgba(11,81,63,0.35)] transition-all hover:bg-[#0F614B]"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -1058,7 +1058,7 @@ function App({
               />
               <motion.button
                 type="button"
-                className="rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 sm:whitespace-nowrap"
+                className="rounded-lg border border-[#146B54] bg-[#0B513F] px-6 py-3 text-sm font-semibold text-[#09CF91] transition-colors hover:bg-[#0F614B] sm:whitespace-nowrap"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSubscribe}
