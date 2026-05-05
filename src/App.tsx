@@ -329,7 +329,7 @@ function App({
                       onClick={() => setLocale('ru')}
                       className={`min-w-[3.1rem] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                         locale === 'ru'
-                          ? 'bg-gold-500 text-gold-950'
+                          ? 'bg-emerald-600 text-white'
                           : 'text-zinc-300 hover:text-white'
                       }`}
                       aria-label="Switch to Russian"
@@ -341,7 +341,7 @@ function App({
                       onClick={() => setLocale('en')}
                       className={`min-w-[3.1rem] rounded-full px-3 py-1.5 text-xs font-semibold transition-colors ${
                         locale === 'en'
-                          ? 'bg-gold-500 text-gold-950'
+                          ? 'bg-emerald-600 text-white'
                           : 'text-zinc-300 hover:text-white'
                       }`}
                       aria-label="Switch to English"
@@ -984,7 +984,7 @@ function App({
               >
                 <Link
                   to="/mint-nft"
-                  className="inline-flex rounded-full bg-gradient-to-r from-gold-500 to-gold-600 px-8 py-4 text-base font-semibold text-gold-950 shadow-lg shadow-gold-500/30 transition-all hover:scale-105 hover:shadow-gold-500/50 active:scale-[0.98]"
+                  className="inline-flex rounded-full bg-gradient-to-r from-emerald-600 to-green-600 px-8 py-4 text-base font-semibold text-white shadow-lg shadow-emerald-700/30 transition-all hover:scale-105 hover:shadow-emerald-700/45 active:scale-[0.98]"
                 >
                   {t.cta.button}
                 </Link>
@@ -1015,7 +1015,7 @@ function App({
             <motion.button
               type="button"
               onClick={handleContactUs}
-              className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-gold-500 to-gold-600 px-6 py-3.5 text-sm font-semibold text-gold-950 shadow-lg shadow-gold-500/30 transition-all hover:shadow-gold-500/50"
+              className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-emerald-600 to-green-600 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-700/30 transition-all hover:shadow-emerald-700/45"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
             >
@@ -1058,7 +1058,7 @@ function App({
               />
               <motion.button
                 type="button"
-                className="rounded-lg bg-gold-500 px-6 py-3 text-sm font-semibold text-gold-950 transition-colors hover:bg-gold-400 sm:whitespace-nowrap"
+                className="rounded-lg bg-emerald-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 sm:whitespace-nowrap"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={handleSubscribe}

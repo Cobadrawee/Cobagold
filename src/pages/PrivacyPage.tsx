@@ -141,7 +141,7 @@ export default function PrivacyPage({
           <div className="mt-12 flex justify-center">
             <Link
               to="/"
-              className="inline-flex items-center justify-center rounded-full border border-gold-500/40 bg-gold-500/10 px-6 py-2.5 text-sm font-medium text-gold-300 transition-colors hover:border-gold-500/60 hover:bg-gold-500/15"
+              className="inline-flex items-center justify-center rounded-full border border-emerald-500/45 bg-emerald-500/12 px-6 py-2.5 text-sm font-medium text-emerald-200 transition-colors hover:border-emerald-400/70 hover:bg-emerald-500/22"
             >
               {p.backHome}
             </Link>

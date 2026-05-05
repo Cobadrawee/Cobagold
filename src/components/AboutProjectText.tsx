@@ -259,7 +259,7 @@ export default function AboutProjectText({
           <button
             type="button"
             onClick={onToggle}
-            className="inline-flex items-center justify-center rounded-full border border-gold-500/30 bg-transparent px-4 py-2 text-xs font-medium text-gold-300 transition-colors hover:border-gold-500/60 hover:bg-gold-500/10"
+            className="inline-flex items-center justify-center rounded-full border border-emerald-500/45 bg-emerald-500/10 px-4 py-2 text-xs font-medium text-emerald-200 transition-colors hover:border-emerald-400/70 hover:bg-emerald-500/20"
           >
             {expanded ? lessLabel : moreLabel}
           </button>

@@ -19,9 +19,9 @@ export default function SwapOrConnect({
   const baseClass =
     'inline-flex items-center justify-center rounded-xl px-6 py-3.5 text-sm font-semibold transition-all'
   const primaryClass =
-    'bg-gradient-to-r from-[#f59e0b] to-[#f97316] text-[#2f1600] shadow-lg shadow-[0_12px_30px_rgba(249,115,22,0.34)] hover:shadow-[0_14px_34px_rgba(249,115,22,0.42)]'
+    'bg-gradient-to-r from-emerald-600 to-green-600 text-white shadow-lg shadow-emerald-700/30 hover:shadow-emerald-700/45'
   const secondaryClass =
-    'border border-gold-500/40 bg-gold-500/10 text-gold-300 hover:bg-gold-500/20'
+    'border border-emerald-500/45 bg-emerald-500/12 text-emerald-300 hover:bg-emerald-500/22'
 
   return (
     <MotionLink
