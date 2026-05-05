@@ -448,8 +448,10 @@ function App({
                   >
                     <p className="text-xs uppercase tracking-widest text-zinc-500">{stat.label}</p>
                     <p
-                      className={`mt-1 text-2xl font-semibold ${
-                        stat.accent ? 'text-gold-500 drop-shadow-[0_0_10px_rgba(205,180,120,0.28)]' : ''
+                      className={`mt-1 text-2xl font-bold ${
+                        stat.accent
+                          ? 'text-[#D4AF37] [text-shadow:0_0_10px_rgba(212,175,55,0.34)]'
+                          : ''
                       }`}
                     >
                       {stat.value}
