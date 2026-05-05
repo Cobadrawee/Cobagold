@@ -48,7 +48,7 @@ export const translations = {
     },
     features: [
       { title: 'Золотое обеспечение', desc: '9,6 грамма золота обеспечивают стабильность COBA' },
-      { title: 'Стабильная стоимость', desc: 'Сочетает стабильность золота с инновациями криптовалют' },
+      { title: 'Стабильная стоимость', desc: 'COBA включает в себя инновации криптовалют и стабильность золота.' },
       { title: 'Быстрые транзакции', desc: 'Основан на Ethereum для быстрых и безопасных переводов' },
     ],
     stats: [
@@ -248,7 +248,7 @@ export const translations = {
     },
     features: [
       { title: 'Gold backing', desc: 'Each token is backed by 9.6 grams of gold.' },
-      { title: 'Stable value', desc: 'Combines the stability of gold with crypto innovation.' },
+      { title: 'Stable value', desc: 'COBA combines cryptocurrency innovation with the stability of gold.' },
       { title: 'Fast transactions', desc: 'Built on Ethereum for fast, secure transfers.' },
     ],
     stats: [
