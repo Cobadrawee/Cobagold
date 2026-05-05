@@ -8,7 +8,7 @@ export const translations = {
       tokenomics: 'Токеномика',
       roadmap: 'Дорожная карта',
       contact: 'Контакты',
-      nftMint: 'Gold NFT',
+      nftMint: 'Поменять COBA',
     },
     hero: {
       badge: 'Криптовалюта с золотым обеспечением',
@@ -209,7 +209,7 @@ export const translations = {
       tokenomics: 'Tokenomics',
       roadmap: 'Roadmap',
       contact: 'Contact',
-      nftMint: 'Gold NFT',
+      nftMint: 'Swap COBA',
     },
     hero: {
       badge: 'Gold-Backed Cryptocurrency',
