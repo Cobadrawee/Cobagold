@@ -447,7 +447,13 @@ function App({
                     transition={{ type: 'spring', stiffness: 400, damping: 25 }}
                   >
                     <p className="text-xs uppercase tracking-widest text-zinc-500">{stat.label}</p>
-                    <p className={`mt-1 text-2xl font-semibold ${stat.accent ? 'text-gold-400' : ''}`}>{stat.value}</p>
+                    <p
+                      className={`mt-1 text-2xl font-semibold ${
+                        stat.accent ? 'text-gold-500 drop-shadow-[0_0_10px_rgba(205,180,120,0.28)]' : ''
+                      }`}
+                    >
+                      {stat.value}
+                    </p>
                   </motion.div>
                 ))}
               </motion.div>
