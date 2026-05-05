@@ -7,7 +7,7 @@ export default function GoldMedallion() {
   return (
     <div className="relative flex justify-center md:justify-end">
       <motion.div
-        className="relative h-56 w-56 cursor-default select-none sm:h-64 sm:w-64"
+        className="relative h-64 w-64 cursor-default select-none sm:h-72 sm:w-72"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         whileHover={{ scale: 1.03 }}
@@ -32,7 +32,7 @@ export default function GoldMedallion() {
           <img
             src="/coba-hero-medallion.png"
             alt="COBA medallion"
-            className="relative z-10 h-full w-full scale-[1.22] object-cover [filter:drop-shadow(0_12px_28px_rgba(0,0,0,0.45))_drop-shadow(0_0_22px_rgb(var(--glow)_/_0.28))]"
+            className="relative z-10 h-full w-full scale-[1.28] object-cover [filter:drop-shadow(0_12px_28px_rgba(0,0,0,0.45))_drop-shadow(0_0_22px_rgb(var(--glow)_/_0.28))]"
           />
         </motion.div>
       </motion.div>

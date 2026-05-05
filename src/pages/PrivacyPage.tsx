@@ -36,7 +36,7 @@ export default function PrivacyPage({
             <img
               src="/coba-logo-wallet-gold.png"
               alt="COBA"
-              className="h-12 w-auto object-contain"
+              className="h-12 w-12 rounded-full object-cover"
             />
             <span className="text-lg font-semibold text-white">COBA</span>
           </Link>

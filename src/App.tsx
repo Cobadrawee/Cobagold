@@ -251,7 +251,7 @@ function App({
             <motion.img
               src="/coba-logo-wallet-gold.png"
               alt="COBA"
-              className="h-12 w-auto object-contain"
+              className="h-12 w-12 rounded-full object-cover"
               whileHover={{ scale: 1.05, rotate: 5 }}
               transition={{ type: 'spring', stiffness: 400 }}
             />
@@ -1010,7 +1010,7 @@ function App({
               <p className="max-w-xl text-zinc-400">
                 {t.contact.subtitle}
               </p>
-              <p className="font-mono text-gold-400">info@cobagold.com</p>
+              <p className="font-mono text-sky-400">info@cobagold.com</p>
             </div>
             <motion.button
               type="button"
@@ -1092,7 +1092,7 @@ function App({
                   <motion.img
                     src="/coba-logo-wallet-gold.png"
                     alt="COBA"
-                    className="h-10 w-auto object-contain"
+                    className="h-10 w-10 rounded-full object-cover"
                     whileHover={{ rotate: 12, scale: 1.1 }}
                   />
                   <span className="text-lg font-semibold text-white">COBA</span>
@@ -1100,7 +1100,10 @@ function App({
                 <p className="max-w-sm text-sm text-zinc-500">
                   {t.footer.tagline}
                 </p>
-                <a href="mailto:info@cobagold.com" className="font-mono text-sm text-gold-400 hover:text-gold-300 transition-colors">
+                <a
+                  href="mailto:info@cobagold.com"
+                  className="font-mono text-sm text-sky-400 transition-colors hover:text-sky-300"
+                >
                   info@cobagold.com
                 </a>
               </div>

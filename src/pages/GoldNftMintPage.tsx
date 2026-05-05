@@ -261,7 +261,7 @@ export default function GoldNftMintPage({
             to="/"
             className="flex items-center gap-3 text-zinc-200 transition-colors hover:text-white"
           >
-            <img src="/coba-logo-wallet-gold.png" alt="COBA" className="h-12 w-auto object-contain" />
+            <img src="/coba-logo-wallet-gold.png" alt="COBA" className="h-12 w-12 rounded-full object-cover" />
             <span className="text-lg font-semibold text-white">COBA</span>
           </Link>
           <div className="flex items-center gap-3">
