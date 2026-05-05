@@ -854,13 +854,7 @@ function App({
                       className="surface hover-glow-border relative overflow-hidden rounded-2xl p-6"
                       whileHover={{ y: -4 }}
                     >
-                      <span
-                        className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${
-                          status === t.roadmap.inProgress
-                            ? 'bg-gold-500/20 text-gold-400'
-                            : 'bg-emerald-500/20 text-emerald-400'
-                        }`}
-                      >
+                      <span className="inline-block text-xs font-semibold tracking-wide text-red-400">
                         {status}
                       </span>
                       <p className="mt-3 text-sm font-semibold text-gold-400">{phase.quarter}</p>
