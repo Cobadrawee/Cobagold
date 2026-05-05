@@ -16,8 +16,8 @@ export const translations = {
       titleHighlight: 'Стабильных Цифровых Активов',
       description:
         'COBA — децентрализованная цифровая валюта, разработанная ICC "Universum" для повышения стабильности и безопасности транзакций. Капитализация каждого COBA определяется актуальной стоимостью 9,6 грамм золота в USDT при ежедневной корректировке соотношения стоимости золота к USDT.',
-      swapCombinedLine1: 'Отправьте USDT — получите COBA',
-      swapCombinedLine2: 'Подключите кошелёк на Ethereum',
+      swapCombinedLine1: 'Отправить USDT и получить COBA',
+      swapCombinedLine2: '',
       currentPrice: 'Текущая цена',
       goldPerToken: 'Золота на токен',
       goldPerTokenApprox: '≈ {value} USDT',
@@ -217,8 +217,8 @@ export const translations = {
       titleHighlight: 'Stable Digital Assets',
       description:
         'COBA is a decentralized digital currency developed by ICC "Universum" to enhance transaction stability and security. The capitalization of each COBA is determined by the current value of 9.6 grams of gold in USDT, with daily adjustment of the gold-to-USDT value ratio.',
-      swapCombinedLine1: 'Pay USDT — get your Gold NFT',
-      swapCombinedLine2: 'Connect on Ethereum and mint on cobagold.com',
+      swapCombinedLine1: 'Pay USDT and get COBA',
+      swapCombinedLine2: '',
       currentPrice: 'Current price',
       goldPerToken: 'Gold per token',
       goldPerTokenApprox: '≈ {value} USDT',

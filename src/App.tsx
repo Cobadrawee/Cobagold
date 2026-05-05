@@ -421,10 +421,9 @@ function App({
               >
                 <SwapOrConnect
                   variant="primary"
-                  className="flex min-w-[min(100%,18rem)] flex-col gap-1.5 px-7 py-5 text-center text-sm font-semibold leading-snug shadow-xl sm:min-w-[20rem] sm:px-10 sm:py-6 sm:text-base"
+                  className="min-w-[min(100%,18rem)] px-7 py-5 text-center text-sm font-semibold leading-snug shadow-xl sm:min-w-[20rem] sm:px-10 sm:py-6 sm:text-base"
                 >
                   <span className="block">{t.hero.swapCombinedLine1}</span>
-                  <span className="block">{t.hero.swapCombinedLine2}</span>
                 </SwapOrConnect>
               </motion.div>
 

@@ -2,10 +2,10 @@
 
 @layer base {
   :root {
-    /* Warm near-black — reads richer with metallic gold than flat blue-grey #0a0a0d */
-    --bg: 20 17 15;
-    --fg: 250 248 245;
-    --muted: 168 162 156;
+    /* Deep ultramarine base to reduce heavy black look */
+    --bg: 17 24 74;
+    --fg: 244 247 255;
+    --muted: 166 176 214;
     --gold: 185 151 88;
     --gold-light: 226 210 179;
     --gold-dark: 138 109 55;
@@ -20,7 +20,10 @@
 
   body {
     min-height: 100vh;
-    background-color: rgb(var(--bg));
+    background:
+      radial-gradient(120% 80% at 50% -10%, rgb(52 78 170 / 0.28), transparent 58%),
+      radial-gradient(80% 60% at 90% 20%, rgb(76 29 149 / 0.16), transparent 62%),
+      rgb(var(--bg));
     color: rgb(var(--fg));
     font-family: 'DM Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
