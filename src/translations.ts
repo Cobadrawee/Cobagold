@@ -214,7 +214,8 @@ export const translations = {
       badge: 'Gold-Backed Cryptocurrency',
       title: 'The Future of',
       titleHighlight: 'Stable Digital Assets',
-      description: 'COBA is a decentralized digital currency developed by ICC "Universum" to enhance stability and security of transactions. Each token\'s price is determined by the current value of 9.6 grams of gold in USDT, with daily adjustment of the gold-to-USDT ratio.',
+      description:
+        'COBA is a decentralized digital currency developed by ICC "Universum" to enhance transaction stability and security. The capitalization of each COBA is determined by the current value of 9.6 grams of gold in USDT, with daily adjustment of the gold-to-USDT value ratio.',
       swapCombinedLine1: 'Pay USDT — get your Gold NFT',
       swapCombinedLine2: 'Connect on Ethereum and mint on cobagold.com',
       currentPrice: 'Current price',
