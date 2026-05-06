@@ -797,7 +797,7 @@ function App({
                 transition={{ type: 'spring', stiffness: 100, damping: 20 }}
                 whileHover={{ scale: 1.05 }}
               >
-                <p className="text-4xl font-bold text-gold-400">5,000+</p>
+                <p className="text-4xl font-bold text-gold-400">5000+</p>
                 <p className="mt-1 text-sm text-zinc-400">{t.about.yearsGold}</p>
               </motion.div>
               <motion.div
@@ -854,7 +854,11 @@ function App({
                       className="surface hover-glow-border relative overflow-hidden rounded-2xl p-6"
                       whileHover={{ y: -4 }}
                     >
-                      <span className="inline-block text-xs font-semibold tracking-wide text-red-400">
+                      <span
+                        className={`inline-block text-xs font-semibold tracking-wide ${
+                          status === t.roadmap.inProgress ? 'text-white' : 'text-red-400'
+                        }`}
+                      >
                         {status}
                       </span>
                       <p className="mt-3 text-sm font-semibold text-gold-400">{phase.quarter}</p>

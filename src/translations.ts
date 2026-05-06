@@ -53,7 +53,7 @@ export const translations = {
       { title: 'Быстрые транзакции', desc: 'Основан на Ethereum для быстрых и безопасных переводов' },
     ],
     stats: [
-      { value: '9.6', label: 'Грамм золота' },
+      { value: '9.6', label: 'Грамм золота на COBA' },
       { value: '24/7', label: 'Доступ к обмену' },
       { value: '100%', label: 'Прозрачность обеспечения' },
       { value: 'EVM', label: 'Совместимость' },
@@ -264,7 +264,7 @@ export const translations = {
       { title: 'Fast transactions', desc: 'Built on Ethereum for fast, secure transfers.' },
     ],
     stats: [
-      { value: '9.6', label: 'Grams of gold' },
+      { value: '9.6', label: 'Grams of COBA gold' },
       { value: '24/7', label: 'Exchange access' },
       { value: '100%', label: 'Backing transparency' },
       { value: 'EVM', label: 'Compatible' },
