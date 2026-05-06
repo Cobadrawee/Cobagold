@@ -18,6 +18,11 @@ import { cobaGoldBackedNftAbi, erc20ApproveAbi } from '../abi/cobaGoldBackedNft'
 import { getGoldNftContractAddress, getUsdtAddressForChain, isGoldNftConfigured } from '../config/goldNft'
 
 type NftFlowMode = 'mint' | 'redeem'
+type AddTokenStatus = 'idle' | 'success' | 'error'
+
+type Eip1193Provider = {
+  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>
+}
 
 export default function GoldNftMintPage({
   locale,
@@ -39,6 +44,8 @@ export default function GoldNftMintPage({
   const pendingIntentRef = useRef<'approve' | 'mint' | 'redeem' | null>(null)
   const [showMintSuccess, setShowMintSuccess] = useState(false)
   const [showRedeemSuccess, setShowRedeemSuccess] = useState(false)
+  const [isAddingToken, setIsAddingToken] = useState(false)
+  const [addTokenStatus, setAddTokenStatus] = useState<AddTokenStatus>('idle')
 
   useEffect(() => {
     document.title = t.documentTitle
@@ -140,10 +147,44 @@ export default function GoldNftMintPage({
     hash: txHash,
   })
 
+  const handleAddTokenToWallet = async () => {
+    if (!nftAddress) return
+    const provider = (window as Window & { ethereum?: Eip1193Provider }).ethereum
+    if (!provider?.request) return
+
+    try {
+      setIsAddingToken(true)
+      setAddTokenStatus('idle')
+      const logoUrl = `${window.location.origin}/coba-logo-wallet-gold.png`
+      const wasAdded = await provider.request({
+        method: 'wallet_watchAsset',
+        params: [
+          {
+            type: 'ERC20',
+            options: {
+              address: nftAddress,
+              symbol: 'COBA',
+              decimals: 18,
+              image: logoUrl,
+            },
+          },
+        ],
+      })
+      setAddTokenStatus(wasAdded ? 'success' : 'error')
+    } catch {
+      setAddTokenStatus('error')
+    } finally {
+      setIsAddingToken(false)
+    }
+  }
+
   useEffect(() => {
     if (!isConfirmed || !txHash) return
     const intent = pendingIntentRef.current
-    if (intent === 'mint') setShowMintSuccess(true)
+    if (intent === 'mint') {
+      setShowMintSuccess(true)
+      void handleAddTokenToWallet()
+    }
     if (intent === 'redeem') setShowRedeemSuccess(true)
     pendingIntentRef.current = null
     void refetchAllowance()
@@ -168,6 +209,7 @@ export default function GoldNftMintPage({
   useEffect(() => {
     setShowMintSuccess(false)
     setShowRedeemSuccess(false)
+    setAddTokenStatus('idle')
     pendingIntentRef.current = null
     reset()
   }, [mode, reset])
@@ -186,6 +228,7 @@ export default function GoldNftMintPage({
   const handleMint = () => {
     if (!nftAddress || tokenAmount === undefined) return
     setShowMintSuccess(false)
+    setAddTokenStatus('idle')
     pendingIntentRef.current = 'mint'
     writeContract({
       address: nftAddress,
@@ -465,7 +508,23 @@ export default function GoldNftMintPage({
                   )}
 
                   {showMintSuccess && (
-                    <p className="text-center text-sm font-medium text-emerald-400">{t.successMint}</p>
+                    <div className="space-y-3 text-center">
+                      <p className="text-sm font-medium text-emerald-400">{t.successMint}</p>
+                      <button
+                        type="button"
+                        onClick={() => void handleAddTokenToWallet()}
+                        disabled={isAddingToken}
+                        className="mx-auto inline-flex rounded-lg border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-zinc-200 transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {isAddingToken ? t.addingToken : t.addTokenToWallet}
+                      </button>
+                      {addTokenStatus === 'success' && (
+                        <p className="text-xs text-emerald-300">{t.addTokenSuccess}</p>
+                      )}
+                      {addTokenStatus === 'error' && (
+                        <p className="text-xs text-red-300/90">{t.addTokenError}</p>
+                      )}
+                    </div>
                   )}
 
                   {showRedeemSuccess && (
