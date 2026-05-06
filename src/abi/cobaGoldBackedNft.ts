@@ -1,22 +1,22 @@
-/** Minimal ABI for CobaGoldBackedNFT + ERC20 USDT actions */
+/** Minimal ABI for COBA fractional token + ERC20 USDT actions */
 export const cobaGoldBackedNftAbi = [
   {
     type: 'function',
-    name: 'mint',
+    name: 'buy',
     stateMutability: 'nonpayable',
-    inputs: [{ name: 'quantity', type: 'uint256' }],
+    inputs: [{ name: 'tokenAmount', type: 'uint256' }],
     outputs: [],
   },
   {
     type: 'function',
     name: 'redeem',
     stateMutability: 'nonpayable',
-    inputs: [{ name: 'tokenId', type: 'uint256' }],
+    inputs: [{ name: 'tokenAmount', type: 'uint256' }],
     outputs: [],
   },
   {
     type: 'function',
-    name: 'usdtForOneNft',
+    name: 'usdtForOneToken',
     stateMutability: 'view',
     inputs: [],
     outputs: [{ name: '', type: 'uint256' }],
@@ -30,14 +30,7 @@ export const cobaGoldBackedNftAbi = [
   },
   {
     type: 'function',
-    name: 'setUsdtMicroPerGram',
-    stateMutability: 'nonpayable',
-    inputs: [{ name: 'v', type: 'uint256' }],
-    outputs: [],
-  },
-  {
-    type: 'function',
-    name: 'totalMinted',
+    name: 'minBuyAmount',
     stateMutability: 'view',
     inputs: [],
     outputs: [{ name: '', type: 'uint256' }],
@@ -55,33 +48,6 @@ export const cobaGoldBackedNftAbi = [
     stateMutability: 'view',
     inputs: [],
     outputs: [{ name: '', type: 'uint256' }],
-  },
-  {
-    type: 'function',
-    name: 'ownerOf',
-    stateMutability: 'view',
-    inputs: [{ name: 'tokenId', type: 'uint256' }],
-    outputs: [{ name: '', type: 'address' }],
-  },
-  {
-    type: 'function',
-    name: 'setApprovalForAll',
-    stateMutability: 'nonpayable',
-    inputs: [
-      { name: 'operator', type: 'address' },
-      { name: 'approved', type: 'bool' },
-    ],
-    outputs: [],
-  },
-  {
-    type: 'function',
-    name: 'isApprovedForAll',
-    stateMutability: 'view',
-    inputs: [
-      { name: 'owner', type: 'address' },
-      { name: 'operator', type: 'address' },
-    ],
-    outputs: [{ name: '', type: 'bool' }],
   },
 ] as const
 

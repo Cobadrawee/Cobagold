@@ -9,7 +9,7 @@ import {
   useWaitForTransactionReceipt,
   useWriteContract,
 } from 'wagmi'
-import { formatUnits, maxUint256 } from 'viem'
+import { formatUnits, maxUint256, parseUnits } from 'viem'
 import { mainnet } from 'viem/chains'
 import { useAppKit } from '@reown/appkit/react'
 import type { Locale } from '../translations'
@@ -35,9 +35,8 @@ export default function GoldNftMintPage({
   const usdtAddress = getUsdtAddressForChain(chainId)
 
   const [mode, setMode] = useState<NftFlowMode>('mint')
-  const [quantity, setQuantity] = useState(1)
-  const [tokenIdStr, setTokenIdStr] = useState('1')
-  const pendingIntentRef = useRef<'approve' | 'mint' | 'approveNft' | 'redeem' | null>(null)
+  const [amountStr, setAmountStr] = useState('0.001')
+  const pendingIntentRef = useRef<'approve' | 'mint' | 'redeem' | null>(null)
   const [showMintSuccess, setShowMintSuccess] = useState(false)
   const [showRedeemSuccess, setShowRedeemSuccess] = useState(false)
 
@@ -52,17 +51,17 @@ export default function GoldNftMintPage({
   const enabled =
     isGoldNftConfigured() && !!nftAddress && !!address && chainId === mainnet.id && !!usdtAddress
 
-  const { data: pricePerNft, refetch: refetchPrice } = useReadContract({
+  const { data: pricePerToken, refetch: refetchPrice } = useReadContract({
     address: nftAddress,
     abi: cobaGoldBackedNftAbi,
-    functionName: 'usdtForOneNft',
+    functionName: 'usdtForOneToken',
     query: { enabled: !!nftAddress && chainId === mainnet.id },
   })
 
-  const { data: totalMinted, refetch: refetchMinted } = useReadContract({
+  const { data: minBuyAmount, refetch: refetchMinBuyAmount } = useReadContract({
     address: nftAddress,
     abi: cobaGoldBackedNftAbi,
-    functionName: 'totalMinted',
+    functionName: 'minBuyAmount',
     query: { enabled: !!nftAddress && chainId === mainnet.id },
   })
 
@@ -82,57 +81,37 @@ export default function GoldNftMintPage({
     query: { enabled: !!usdtAddress && !!address && !!nftAddress },
   })
 
-  const { data: treasuryAddr, refetch: refetchTreasuryAddr } = useReadContract({
+  const { data: tokenBalance, refetch: refetchTokenBalance } = useReadContract({
     address: nftAddress,
-    abi: cobaGoldBackedNftAbi,
-    functionName: 'treasury',
-    query: { enabled: !!nftAddress && chainId === mainnet.id },
+    abi: erc20ApproveAbi,
+    functionName: 'balanceOf',
+    args: address ? [address] : undefined,
+    query: { enabled: !!nftAddress && !!address && chainId === mainnet.id },
   })
 
   const { data: treasuryAllowance, refetch: refetchTreasuryAllowance } = useReadContract({
-    address: usdtAddress,
-    abi: erc20ApproveAbi,
-    functionName: 'allowance',
-    args: treasuryAddr && nftAddress ? [treasuryAddr, nftAddress] : undefined,
-    query: { enabled: !!usdtAddress && !!treasuryAddr && !!nftAddress && chainId === mainnet.id },
+    address: nftAddress,
+    abi: cobaGoldBackedNftAbi,
+    functionName: 'treasuryUsdtAllowance',
+    query: { enabled: !!nftAddress && chainId === mainnet.id },
   })
 
-  const tokenIdBigInt = useMemo(() => {
-    const raw = tokenIdStr.trim()
-    if (!/^\d+$/.test(raw)) return undefined
+  const tokenAmount = useMemo(() => {
+    const raw = amountStr.trim().replace(',', '.')
+    if (!raw) return undefined
     try {
-      const v = BigInt(raw)
+      const v = parseUnits(raw, 18)
       if (v <= 0n) return undefined
       return v
     } catch {
       return undefined
     }
-  }, [tokenIdStr])
-
-  const { data: tokenOwner, refetch: refetchTokenOwner } = useReadContract({
-    address: nftAddress,
-    abi: cobaGoldBackedNftAbi,
-    functionName: 'ownerOf',
-    args: tokenIdBigInt !== undefined ? [tokenIdBigInt] : undefined,
-    query: {
-      enabled: !!nftAddress && chainId === mainnet.id && mode === 'redeem' && tokenIdBigInt !== undefined,
-    },
-  })
-
-  const { data: nftApproved, refetch: refetchNftApproved } = useReadContract({
-    address: nftAddress,
-    abi: cobaGoldBackedNftAbi,
-    functionName: 'isApprovedForAll',
-    args: address && nftAddress ? [address, nftAddress] : undefined,
-    query: { enabled: !!nftAddress && !!address && chainId === mainnet.id },
-  })
-
-  const safeQty = Math.max(1, quantity)
+  }, [amountStr])
 
   const totalCost = useMemo(() => {
-    if (pricePerNft === undefined) return undefined
-    return pricePerNft * BigInt(safeQty)
-  }, [pricePerNft, safeQty])
+    if (pricePerToken === undefined || tokenAmount === undefined) return undefined
+    return (tokenAmount * pricePerToken) / 10n ** 18n
+  }, [pricePerToken, tokenAmount])
 
   const needsApprove =
     totalCost !== undefined && allowance !== undefined ? allowance < totalCost : true
@@ -140,16 +119,14 @@ export default function GoldNftMintPage({
   const insufficientUsdt =
     totalCost !== undefined && usdtBalance !== undefined ? usdtBalance < totalCost : false
 
-  const wrongOwner =
-    mode === 'redeem' &&
-    !!address &&
-    tokenOwner !== undefined &&
-    tokenOwner.toLowerCase() !== address.toLowerCase()
+  const belowMinBuy =
+    mode === 'mint' && tokenAmount !== undefined && minBuyAmount !== undefined ? tokenAmount < minBuyAmount : false
 
-  const needsNftApprove = nftApproved !== true
+  const insufficientToken =
+    mode === 'redeem' && tokenAmount !== undefined && tokenBalance !== undefined ? tokenBalance < tokenAmount : false
 
   const treasuryReady =
-    pricePerNft !== undefined && treasuryAllowance !== undefined ? treasuryAllowance >= pricePerNft : false
+    totalCost !== undefined && treasuryAllowance !== undefined ? treasuryAllowance >= totalCost : false
 
   const treasuryAllowanceLabel = useMemo(() => {
     if (treasuryAllowance === undefined) return null
@@ -171,24 +148,20 @@ export default function GoldNftMintPage({
     pendingIntentRef.current = null
     void refetchAllowance()
     void refetchBalance()
-    void refetchMinted()
+    void refetchTokenBalance()
     void refetchPrice()
     void refetchTreasuryAllowance()
-    void refetchTreasuryAddr()
-    void refetchNftApproved()
-    void refetchTokenOwner()
+    void refetchMinBuyAmount()
     reset()
   }, [
     isConfirmed,
     txHash,
     refetchAllowance,
     refetchBalance,
-    refetchMinted,
+    refetchTokenBalance,
     refetchPrice,
     refetchTreasuryAllowance,
-    refetchTreasuryAddr,
-    refetchNftApproved,
-    refetchTokenOwner,
+    refetchMinBuyAmount,
     reset,
   ])
 
@@ -211,38 +184,26 @@ export default function GoldNftMintPage({
   }
 
   const handleMint = () => {
-    if (!nftAddress) return
+    if (!nftAddress || tokenAmount === undefined) return
     setShowMintSuccess(false)
     pendingIntentRef.current = 'mint'
     writeContract({
       address: nftAddress,
       abi: cobaGoldBackedNftAbi,
-      functionName: 'mint',
-      args: [BigInt(safeQty)],
-    })
-  }
-
-  const handleApproveNft = () => {
-    if (!nftAddress) return
-    setShowRedeemSuccess(false)
-    pendingIntentRef.current = 'approveNft'
-    writeContract({
-      address: nftAddress,
-      abi: cobaGoldBackedNftAbi,
-      functionName: 'setApprovalForAll',
-      args: [nftAddress, true],
+      functionName: 'buy',
+      args: [tokenAmount],
     })
   }
 
   const handleRedeem = () => {
-    if (!nftAddress || tokenIdBigInt === undefined) return
+    if (!nftAddress || tokenAmount === undefined) return
     setShowRedeemSuccess(false)
     pendingIntentRef.current = 'redeem'
     writeContract({
       address: nftAddress,
       abi: cobaGoldBackedNftAbi,
       functionName: 'redeem',
-      args: [tokenIdBigInt],
+      args: [tokenAmount],
     })
   }
 
@@ -347,8 +308,8 @@ export default function GoldNftMintPage({
                   <div className="space-y-1">
                     <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">{t.priceLabel}</p>
                     <p className="text-2xl font-semibold text-gold-400">
-                      {pricePerNft !== undefined
-                        ? `${formatUnits(pricePerNft, 6)} USDT`
+                      {pricePerToken !== undefined
+                        ? `${formatUnits(pricePerToken, 6)} USDT`
                         : '—'}
                     </p>
                     <p className="text-xs text-zinc-500">{t.perNft}</p>
@@ -356,26 +317,26 @@ export default function GoldNftMintPage({
 
                   <p className="text-xs text-zinc-500">{t.gramsNote}</p>
 
-                  {totalMinted !== undefined && (
-                    <p className="text-sm text-zinc-400">
-                      {t.supply}: {totalMinted.toString()}
-                    </p>
-                  )}
-
                   {mode === 'mint' && (
                     <>
                       <label className="block">
                         <span className="text-xs font-medium text-zinc-400">{t.quantity}</span>
                         <input
                           type="number"
-                          min={1}
-                          value={safeQty}
+                          min="0.001"
+                          step="0.001"
+                          value={amountStr}
                           onChange={(e) => {
                             setShowMintSuccess(false)
-                            setQuantity(Number(e.target.value) || 1)
+                            setAmountStr(e.target.value)
                           }}
                           className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-gold-500/40"
                         />
+                        {minBuyAmount !== undefined && (
+                          <span className="mt-1 block text-xs text-zinc-500">
+                            {t.minAmount}: {formatUnits(minBuyAmount, 18)}
+                          </span>
+                        )}
                       </label>
 
                       <div className="flex justify-between border-t border-white/5 pt-4 text-sm">
@@ -398,6 +359,9 @@ export default function GoldNftMintPage({
                       {!needsApprove && insufficientUsdt && (
                         <p className="text-xs text-red-300/90">{t.insufficientUsdt}</p>
                       )}
+                      {belowMinBuy && (
+                        <p className="text-xs text-red-300/90">{t.minAmountError}</p>
+                      )}
 
                       {needsApprove ? (
                         <button
@@ -415,7 +379,8 @@ export default function GoldNftMintPage({
                             isPending ||
                             isConfirming ||
                             totalCost === undefined ||
-                            insufficientUsdt
+                            insufficientUsdt ||
+                            belowMinBuy
                           }
                           onClick={handleMint}
                           className="w-full rounded-xl border border-[#146B54] bg-[#0B513F] py-3.5 text-sm font-semibold text-[#09CF91] shadow-lg shadow-[0_12px_28px_rgba(11,81,63,0.35)] disabled:cursor-not-allowed disabled:opacity-40"
@@ -429,33 +394,39 @@ export default function GoldNftMintPage({
                   {mode === 'redeem' && (
                     <>
                       <label className="block">
-                        <span className="text-xs font-medium text-zinc-400">{t.tokenId}</span>
+                        <span className="text-xs font-medium text-zinc-400">{t.amount}</span>
                         <input
-                          type="text"
-                          inputMode="numeric"
-                          pattern="[0-9]*"
-                          value={tokenIdStr}
+                          type="number"
+                          min="0.001"
+                          step="0.001"
+                          value={amountStr}
                           onChange={(e) => {
                             setShowRedeemSuccess(false)
-                            setTokenIdStr(e.target.value.replaceAll(/[^\d]/g, ''))
+                            setAmountStr(e.target.value)
                           }}
                           className="mt-2 w-full rounded-xl border border-white/10 bg-zinc-950 px-4 py-3 text-white outline-none focus:border-gold-500/40"
                         />
-                        {tokenIdBigInt === undefined && tokenIdStr.trim() !== '' && (
-                          <span className="mt-1 block text-xs text-red-300/90">{t.invalidTokenId}</span>
+                        {tokenAmount === undefined && amountStr.trim() !== '' && (
+                          <span className="mt-1 block text-xs text-red-300/90">{t.invalidAmount}</span>
                         )}
                       </label>
 
                       <div className="flex justify-between border-t border-white/5 pt-4 text-sm">
                         <span className="text-zinc-400">{t.redeemPayout}</span>
                         <span className="font-semibold text-white">
-                          {pricePerNft !== undefined ? `${formatUnits(pricePerNft, 6)} USDT` : '—'}
+                          {totalCost !== undefined ? `${formatUnits(totalCost, 6)} USDT` : '—'}
                         </span>
                       </div>
 
+                      {tokenBalance !== undefined && (
+                        <p className="text-xs text-zinc-500">
+                          {t.tokenBalance}: {formatUnits(tokenBalance, 18)} COBA
+                        </p>
+                      )}
+
                       <p className="text-xs text-zinc-600">{t.treasuryLiquidity}</p>
 
-                      {treasuryAllowance !== undefined && pricePerNft !== undefined && (
+                      {treasuryAllowance !== undefined && totalCost !== undefined && (
                         <p className="text-xs text-zinc-500">
                           <span className="block">{t.treasuryAllowance}</span>
                           <span className="mt-1 block break-all font-mono text-[11px] text-zinc-400">
@@ -464,55 +435,32 @@ export default function GoldNftMintPage({
                         </p>
                       )}
 
-                      {wrongOwner && (
-                        <p className="text-xs text-red-300/90">{t.wrongOwner}</p>
-                      )}
-
-                      {needsNftApprove && (
-                        <p className="text-xs text-gold-200/80">{t.needApproveNft}</p>
-                      )}
-
-                      {!treasuryReady && pricePerNft !== undefined && treasuryAllowance !== undefined && (
+                      {!treasuryReady && totalCost !== undefined && treasuryAllowance !== undefined && (
                         <p className="text-xs text-red-300/90">{t.treasuryAllowanceTooLow}</p>
                       )}
-
-                      {needsNftApprove ? (
-                        <button
-                          type="button"
-                          disabled={isPending || isConfirming || !nftAddress}
-                          onClick={handleApproveNft}
-                          className="w-full rounded-xl border border-[#146B54] bg-[#0B513F] py-3.5 text-sm font-semibold text-[#09CF91] transition-colors hover:bg-[#0F614B] disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          {isPending || isConfirming ? t.approvingNft : t.approveNft}
-                        </button>
-                      ) : (
-                        <button
-                          type="button"
-                          disabled={
-                            isPending ||
-                            isConfirming ||
-                            tokenIdBigInt === undefined ||
-                            wrongOwner ||
-                            !treasuryReady
-                          }
-                          onClick={handleRedeem}
-                          className="w-full rounded-xl border border-[#146B54] bg-[#0B513F] py-3.5 text-sm font-semibold text-[#09CF91] shadow-lg shadow-[0_12px_28px_rgba(11,81,63,0.35)] disabled:cursor-not-allowed disabled:opacity-40"
-                        >
-                          {isPending || isConfirming ? t.redeeming : t.redeem}
-                        </button>
+                      {insufficientToken && (
+                        <p className="text-xs text-red-300/90">{t.insufficientToken}</p>
                       )}
+                      <button
+                        type="button"
+                        disabled={
+                          isPending ||
+                          isConfirming ||
+                          tokenAmount === undefined ||
+                          insufficientToken ||
+                          !treasuryReady
+                        }
+                        onClick={handleRedeem}
+                        className="w-full rounded-xl border border-[#146B54] bg-[#0B513F] py-3.5 text-sm font-semibold text-[#09CF91] shadow-lg shadow-[0_12px_28px_rgba(11,81,63,0.35)] disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        {isPending || isConfirming ? t.redeeming : t.redeem}
+                      </button>
                     </>
                   )}
 
                   {isConfirming && (
                     <p className="text-center text-xs text-zinc-500">
-                      {mode === 'mint'
-                        ? needsApprove
-                          ? t.waitApprove
-                          : t.waitMint
-                        : needsNftApprove
-                          ? t.waitApproveNft
-                          : t.waitRedeem}
+                      {mode === 'mint' ? (needsApprove ? t.waitApprove : t.waitMint) : t.waitRedeem}
                     </p>
                   )}
 
