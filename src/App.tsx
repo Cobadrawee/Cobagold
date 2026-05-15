@@ -352,7 +352,7 @@ function App({
                   <Link
                     to="/mint-nft"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="rounded-full border border-gold-500/25 bg-gold-500/10 px-3 py-2 text-center text-xs font-medium text-gold-300"
+                    className="rounded-full border border-[#146B54] bg-[#0B513F] px-3 py-2 text-center text-xs font-medium text-[#09CF91] transition-colors hover:bg-[#0F614B]"
                   >
                     {t.nav.nftMint}
                   </Link>

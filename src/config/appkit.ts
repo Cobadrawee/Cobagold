@@ -21,12 +21,12 @@ const siteOrigin =
   import.meta.env.VITE_SITE_URL?.trim().replace(/\/$/, '') ||
   (typeof window !== 'undefined' ? window.location.origin : 'https://www.cobagold.com')
 
-// dApp icon in wallet modals: use the PDF-derived COBA logo requested by owner.
+// dApp identity in wallet modals.
 const metadata = {
-  name: 'COBA Token',
+  name: 'COBA drawee',
   description: 'Gold-Backed Cryptocurrency',
   url: siteOrigin,
-  icons: [`${siteOrigin}/coba-logo-from-pdf.png`],
+  icons: [`${siteOrigin}/coba-logo-wallet-gold.png`],
 }
 
 // viem chains are compatible with AppKitNetwork for EVM

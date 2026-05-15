@@ -92,7 +92,7 @@ export default function ConnectWallet({ locale = 'en' }: { locale?: 'ru' | 'en' 
           />
         </svg>
       </span>
-      <span>{isRu ? 'Подключить' : 'Connect'}</span>
+      <span>{isRu ? 'Поменять COBA' : 'Swap COBA'}</span>
     </motion.button>
   )
 }
