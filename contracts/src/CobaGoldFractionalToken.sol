@@ -9,11 +9,14 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 /**
  * @title CobaGoldFractionalToken
  * @notice Fractional COBA token priced from 9.6g gold in micro-USDT.
- * @dev Uses ERC-20 (18 decimals), so users can buy/redeem partial amounts like 0.001.
- *      Price of 1 full token is derived as: usdtMicroPerGram * 9.6.
+ * @dev Full supply (9B) is minted once to treasury. Buys transfer COBA treasury -> buyer;
+ *      redeems transfer COBA buyer -> treasury. Supports partial amounts like 0.001.
  */
 contract CobaGoldFractionalToken is ERC20, Ownable {
     using SafeERC20 for IERC20;
+
+    /// @notice Fixed cap: 9 billion COBA (18 decimals).
+    uint256 public constant MAX_SUPPLY = 9_000_000_000 ether;
 
     IERC20 public immutable usdt;
     address public treasury;
@@ -51,6 +54,8 @@ contract CobaGoldFractionalToken is ERC20, Ownable {
         treasury = treasury_;
         usdtMicroPerGram = usdtMicroPerGram_;
         minBuyAmount = minBuyAmount_;
+
+        _mint(treasury_, MAX_SUPPLY);
     }
 
     function setTreasury(address t) external onlyOwner {
@@ -81,24 +86,30 @@ contract CobaGoldFractionalToken is ERC20, Ownable {
         return (tokenAmount * usdtForOneToken()) / TOKEN_SCALE;
     }
 
+    /// @notice COBA still held by treasury (available for new purchases).
+    function treasuryCobaBalance() external view returns (uint256) {
+        return balanceOf(treasury);
+    }
+
     /**
-     * @notice Buy fractional COBA token amount using USDT.
+     * @notice Buy fractional COBA from treasury inventory using USDT.
      * @param tokenAmount ERC-20 amount in 18-decimal units (e.g. 0.001 token = 1e15).
      */
     function buy(uint256 tokenAmount) external {
         require(tokenAmount >= minBuyAmount, "below min");
+        require(balanceOf(treasury) >= tokenAmount, "no inventory");
 
         uint256 usdtAmount = quoteUsdtForAmount(tokenAmount);
         require(usdtAmount > 0, "amount");
 
         usdt.safeTransferFrom(msg.sender, treasury, usdtAmount);
-        _mint(msg.sender, tokenAmount);
+        _transfer(treasury, msg.sender, tokenAmount);
 
         emit Bought(msg.sender, tokenAmount, usdtAmount);
     }
 
     /**
-     * @notice Redeem fractional COBA amount back to USDT at current on-chain price.
+     * @notice Redeem fractional COBA back to USDT at current on-chain price.
      * @dev Treasury must fund USDT and approve this contract as spender.
      */
     function redeem(uint256 tokenAmount) external {
@@ -107,7 +118,7 @@ contract CobaGoldFractionalToken is ERC20, Ownable {
         uint256 usdtAmount = quoteUsdtForAmount(tokenAmount);
         require(usdtAmount > 0, "amount");
 
-        _burn(msg.sender, tokenAmount);
+        _transfer(msg.sender, treasury, tokenAmount);
         usdt.safeTransferFrom(treasury, msg.sender, usdtAmount);
 
         emit Redeemed(msg.sender, tokenAmount, usdtAmount);
@@ -116,5 +127,12 @@ contract CobaGoldFractionalToken is ERC20, Ownable {
     /// @notice USDT allowance from treasury -> this contract (must cover redeems).
     function treasuryUsdtAllowance() external view returns (uint256) {
         return usdt.allowance(treasury, address(this));
+    }
+
+    function _update(address from, address to, uint256 value) internal override {
+        if (from == address(0)) {
+            require(totalSupply() + value <= MAX_SUPPLY, "max supply");
+        }
+        super._update(from, to, value);
     }
 }

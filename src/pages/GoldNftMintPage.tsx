@@ -15,6 +15,11 @@ import { useAppKit } from '@reown/appkit/react'
 import type { Locale } from '../translations'
 import { translations } from '../translations'
 import { cobaGoldBackedNftAbi, erc20ApproveAbi } from '../abi/cobaGoldBackedNft'
+import {
+  COBA_TOKEN_DECIMALS,
+  COBA_TOKEN_LOGO_URL,
+  COBA_TOKEN_SYMBOL,
+} from '../config/cobaToken'
 import { getGoldNftContractAddress, getUsdtAddressForChain, isGoldNftConfigured } from '../config/goldNft'
 
 type NftFlowMode = 'mint' | 'redeem'
@@ -46,6 +51,8 @@ export default function GoldNftMintPage({
   const [showRedeemSuccess, setShowRedeemSuccess] = useState(false)
   const [isAddingToken, setIsAddingToken] = useState(false)
   const [addTokenStatus, setAddTokenStatus] = useState<AddTokenStatus>('idle')
+  const [isCopyingAddress, setIsCopyingAddress] = useState(false)
+  const [copiedAddress, setCopiedAddress] = useState(false)
 
   useEffect(() => {
     document.title = t.documentTitle
@@ -103,6 +110,13 @@ export default function GoldNftMintPage({
     query: { enabled: !!nftAddress && chainId === mainnet.id },
   })
 
+  const { data: treasuryCobaBalance, refetch: refetchTreasuryCobaBalance } = useReadContract({
+    address: nftAddress,
+    abi: cobaGoldBackedNftAbi,
+    functionName: 'treasuryCobaBalance',
+    query: { enabled: !!nftAddress && chainId === mainnet.id },
+  })
+
   const tokenAmount = useMemo(() => {
     const raw = amountStr.trim().replace(',', '.')
     if (!raw) return undefined
@@ -135,6 +149,11 @@ export default function GoldNftMintPage({
   const treasuryReady =
     totalCost !== undefined && treasuryAllowance !== undefined ? treasuryAllowance >= totalCost : false
 
+  const insufficientTreasuryCoba =
+    mode === 'mint' && tokenAmount !== undefined && treasuryCobaBalance !== undefined
+      ? treasuryCobaBalance < tokenAmount
+      : false
+
   const treasuryAllowanceLabel = useMemo(() => {
     if (treasuryAllowance === undefined) return null
     if (treasuryAllowance >= maxUint256 / 2n) return t.treasuryAllowanceUnlimited
@@ -155,7 +174,6 @@ export default function GoldNftMintPage({
     try {
       setIsAddingToken(true)
       setAddTokenStatus('idle')
-      const logoUrl = `${window.location.origin}/coba-logo-wallet-gold.png`
       const wasAdded = await provider.request({
         method: 'wallet_watchAsset',
         params: [
@@ -163,9 +181,9 @@ export default function GoldNftMintPage({
             type: 'ERC20',
             options: {
               address: nftAddress,
-              symbol: 'COBA',
-              decimals: 18,
-              image: logoUrl,
+              symbol: COBA_TOKEN_SYMBOL,
+              decimals: COBA_TOKEN_DECIMALS,
+              image: COBA_TOKEN_LOGO_URL,
             },
           },
         ],
@@ -175,6 +193,18 @@ export default function GoldNftMintPage({
       setAddTokenStatus('error')
     } finally {
       setIsAddingToken(false)
+    }
+  }
+
+  const handleCopyTokenAddress = async () => {
+    if (!nftAddress || !navigator?.clipboard) return
+    try {
+      setIsCopyingAddress(true)
+      await navigator.clipboard.writeText(nftAddress)
+      setCopiedAddress(true)
+      window.setTimeout(() => setCopiedAddress(false), 2200)
+    } finally {
+      setIsCopyingAddress(false)
     }
   }
 
@@ -192,6 +222,7 @@ export default function GoldNftMintPage({
     void refetchTokenBalance()
     void refetchPrice()
     void refetchTreasuryAllowance()
+    void refetchTreasuryCobaBalance()
     void refetchMinBuyAmount()
     reset()
   }, [
@@ -202,6 +233,7 @@ export default function GoldNftMintPage({
     refetchTokenBalance,
     refetchPrice,
     refetchTreasuryAllowance,
+    refetchTreasuryCobaBalance,
     refetchMinBuyAmount,
     reset,
   ])
@@ -210,6 +242,7 @@ export default function GoldNftMintPage({
     setShowMintSuccess(false)
     setShowRedeemSuccess(false)
     setAddTokenStatus('idle')
+    setCopiedAddress(false)
     pendingIntentRef.current = null
     reset()
   }, [mode, reset])
@@ -229,6 +262,7 @@ export default function GoldNftMintPage({
     if (!nftAddress || tokenAmount === undefined) return
     setShowMintSuccess(false)
     setAddTokenStatus('idle')
+    setCopiedAddress(false)
     pendingIntentRef.current = 'mint'
     writeContract({
       address: nftAddress,
@@ -395,6 +429,12 @@ export default function GoldNftMintPage({
                         </p>
                       )}
 
+                      {treasuryCobaBalance !== undefined && (
+                        <p className="text-xs text-zinc-500">
+                          {t.treasuryCobaInventory}: {formatUnits(treasuryCobaBalance, 18)} COBA
+                        </p>
+                      )}
+
                       {needsApprove && totalCost !== undefined && (
                         <p className="text-xs text-gold-200/80">{t.needApprove}</p>
                       )}
@@ -404,6 +444,9 @@ export default function GoldNftMintPage({
                       )}
                       {belowMinBuy && (
                         <p className="text-xs text-red-300/90">{t.minAmountError}</p>
+                      )}
+                      {insufficientTreasuryCoba && (
+                        <p className="text-xs text-red-300/90">{t.insufficientTreasuryCoba}</p>
                       )}
 
                       {needsApprove ? (
@@ -423,7 +466,8 @@ export default function GoldNftMintPage({
                             isConfirming ||
                             totalCost === undefined ||
                             insufficientUsdt ||
-                            belowMinBuy
+                            belowMinBuy ||
+                            insufficientTreasuryCoba
                           }
                           onClick={handleMint}
                           className="w-full rounded-xl border border-[#146B54] bg-[#0B513F] py-3.5 text-sm font-semibold text-[#09CF91] shadow-lg shadow-[0_12px_28px_rgba(11,81,63,0.35)] disabled:cursor-not-allowed disabled:opacity-40"
@@ -524,6 +568,19 @@ export default function GoldNftMintPage({
                       {addTokenStatus === 'error' && (
                         <p className="text-xs text-red-300/90">{t.addTokenError}</p>
                       )}
+                      <div className="mx-auto w-full max-w-sm rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-left">
+                        <p className="text-[11px] uppercase tracking-wide text-zinc-500">{t.tokenContractLabel}</p>
+                        <p className="mt-1 break-all font-mono text-xs text-zinc-300">{nftAddress}</p>
+                        <button
+                          type="button"
+                          onClick={() => void handleCopyTokenAddress()}
+                          disabled={isCopyingAddress}
+                          className="mt-2 inline-flex rounded-md border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-semibold text-zinc-200 transition-colors hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-60"
+                        >
+                          {copiedAddress ? t.tokenAddressCopied : t.copyTokenAddress}
+                        </button>
+                      </div>
+                      <p className="text-[11px] leading-relaxed text-zinc-500">{t.manualImportHint}</p>
                     </div>
                   )}
 
