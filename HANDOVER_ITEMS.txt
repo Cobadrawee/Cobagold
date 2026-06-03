@@ -1,0 +1,49 @@
+COBA — handover checklist (client-only items for AnyDesk)
+============================================================
+
+Already done on developer side (no action needed):
+- Website repo pushed; homepage + mint page read same contract price
+- Wallet add-token uses yellow owl logo (coba-logo-wallet-gold.png)
+- price-sync/ folder ready for client GitHub (hourly auto price)
+- Failing workflow removed from developer GitHub (no more spam emails)
+
+CONTRACT
+  Address: 0x59aCE07c94ef75209b65A516D33E167947941012
+  Owner/treasury: 0x25914aeB4961BF47Bdb4Ba6cC373105a0ac464E2 (MetaMask Account 17)
+  Network: Ethereum mainnet
+
+CLIENT MUST HAVE BEFORE SESSION
+  [ ] MetaMask Account 17 on their PC
+  [ ] ~0.02 ETH (gas)
+  [ ] ~$15–20 USDT (wallet USD price — Uniswap pool)
+  [ ] Client GitHub account (not developer's)
+
+ANYDESK — CLIENT WALLET ONLY
+  [ ] price-sync repo on CLIENT GitHub + secrets + green workflow run
+  [ ] Etherscan verifyaddress + tokenupdate (logo: coba-logo-wallet-gold.png)
+  [ ] Uniswap COBA/USDT pool (~$15 USDT)
+  [ ] USDT approve to contract (redeem on site)
+  [ ] Test buy on cobagold.com/mint-nft
+
+DEVELOPER MAC SAME EVENING
+  [ ] CoinGecko partner submit (Uniswap + DexScreener URL)
+
+HANDOVER — TRANSFER TO CLIENT
+  [ ] Vercel project ownership
+  [ ] GitHub website repo (or client becomes sole owner)
+  [ ] Reown dashboard project
+  [ ] CoinGecko partner login (client changes password)
+  [ ] Domain/DNS if applicable
+  [ ] Remove developer from all of the above
+  [ ] Client owns price-sync repo + secrets (developer never keeps private key)
+
+WALLET LOGO / USD — SET EXPECTATION
+  Submitted in session; MetaMask/OKX show logo and $ after Etherscan + CoinGecko index (days, not same hour).
+
+KEY URLS
+  Site: https://www.cobagold.com
+  Mint: https://www.cobagold.com/mint-nft
+  Etherscan token: https://etherscan.io/token/0x59aCE07c94ef75209b65A516D33E167947941012
+  Etherscan verify: https://etherscan.io/verifyaddress
+  Etherscan logo: https://etherscan.io/tokenupdate
+  CoinGecko partner: https://partner.coingecko.com

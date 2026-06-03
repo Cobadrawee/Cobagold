@@ -26,7 +26,7 @@ const metadata = {
   name: 'COBA drawee',
   description: 'Gold-Backed Cryptocurrency',
   url: siteOrigin,
-  icons: [`${siteOrigin}/coba-logo-wallet-owl.png`],
+  icons: [`${siteOrigin}/coba-logo-wallet-gold.png`],
 }
 
 // viem chains are compatible with AppKitNetwork for EVM

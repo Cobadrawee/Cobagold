@@ -15,6 +15,7 @@ import aboutProjectRu from './content/about-project-ru.txt?raw'
 import aboutProjectEn from './content/about-project-en.txt?raw'
 import { readGoldPriceCache, writeGoldPriceCache } from './utils/goldPriceCache'
 import { fetchGoldSpotUsdPerTroyOz } from './utils/goldSpotUsdPerOz'
+import { useCobaContractPrice } from './hooks/useCobaContractPrice'
 
 function App({
   locale,
@@ -40,6 +41,8 @@ function App({
   /** True when live APIs failed but we still show a saved price from localStorage */
   const [goldPriceStale, setGoldPriceStale] = useState(false)
   const t = translations[locale]
+  const { usdtPerToken: contractUsdt, isLoading: contractPriceLoading, isConfigured: hasContractPrice } =
+    useCobaContractPrice()
 
   useEffect(() => {
     const onScroll = () => setShowScrollTop(window.scrollY > 400)
@@ -177,8 +180,20 @@ function App({
     return 'Unavailable'
   })()
 
+  const contractPriceText = (() => {
+    if (!hasContractPrice) return null
+    if (contractPriceLoading && contractUsdt == null) return locale === 'ru' ? 'Загрузка…' : 'Loading…'
+    if (contractUsdt == null || !Number.isFinite(contractUsdt)) return null
+    return `$${contractUsdt.toFixed(2)}`
+  })()
+
   const liveCurrentPriceText =
-    gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : goldValueForUI
+    contractPriceText ??
+    (gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : goldValueForUI)
+
+  const tokenomicsPriceText =
+    contractPriceText ??
+    (gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : '—')
 
   const contactMailtoHref = (() => {
     const subject = locale === 'ru' ? 'Запрос по COBA' : 'COBA inquiry'
@@ -611,7 +626,7 @@ function App({
               <div className="flex flex-col items-end gap-1 sm:shrink-0 sm:items-baseline sm:gap-3">
                 <div className="flex items-baseline gap-3">
                   <span className="text-3xl font-bold text-gold-300 sm:text-4xl">
-                    {gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : '—'}
+                    {tokenomicsPriceText}
                   </span>
                   <span
                     className={`text-sm font-semibold ${
