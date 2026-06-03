@@ -1,0 +1,11 @@
+{
+  "name": "coba-price-sync",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sync": "node sync.mjs"
+  },
+  "dependencies": {
+    "viem": "^2.46.3"
+  }
+}

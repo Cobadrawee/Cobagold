@@ -1,6 +1,4 @@
-# Copy this file to: .github/workflows/sync-gold-nft-price.yml
-# (GitHub web: Add file → that path → paste. Or: PAT with "workflow" scope + git add .github/workflows)
-name: Sync Gold NFT on-chain price
+name: Sync COBA on-chain price
 
 on:
   schedule:
@@ -20,11 +18,10 @@ jobs:
 
       - run: npm ci
 
-      - name: Update usdtMicroPerGram on mainnet
+      - name: setUsdtMicroPerGram from gold spot
         env:
           GOLD_NFT_SYNC_PRIVATE_KEY: ${{ secrets.GOLD_NFT_SYNC_PRIVATE_KEY }}
           GOLD_NFT_CONTRACT: ${{ secrets.GOLD_NFT_CONTRACT }}
           ETHEREUM_RPC_URL: ${{ secrets.ETHEREUM_RPC_URL }}
           METALAPI_KEY: ${{ secrets.METALAPI_KEY }}
-          VITE_METALAPI_KEY: ${{ secrets.VITE_METALAPI_KEY }}
-        run: node scripts/sync-gold-nft-price.mjs
+        run: npm run sync
