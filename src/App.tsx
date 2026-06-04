@@ -16,6 +16,7 @@ import aboutProjectEn from './content/about-project-en.txt?raw'
 import { readGoldPriceCache, writeGoldPriceCache } from './utils/goldPriceCache'
 import { fetchGoldSpotUsdPerTroyOz } from './utils/goldSpotUsdPerOz'
 import { useCobaContractPrice } from './hooks/useCobaContractPrice'
+import { COBA_CONTACT_EMAIL } from './config/contact'
 
 function App({
   locale,
@@ -202,11 +203,11 @@ function App({
         ? 'Здравствуйте! Хочу узнать больше о COBA и способах обмена.\n\n'
         : 'Hello! I would like to learn more about COBA and swap options.\n\n'
 
-    return `mailto:info@cobagold.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    return `mailto:${COBA_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
   })()
 
   const handleContactUs = async () => {
-    const email = 'info@cobagold.com'
+    const email = COBA_CONTACT_EMAIL
     const href = contactMailtoHref
 
     // Always show a small confirmation so the user knows the click worked.
@@ -241,7 +242,7 @@ function App({
         : `Email: ${email}\n\nHello! I want to subscribe to COBA updates.\n`
 
     // Open the client mail app to act as a lightweight "newsletter" submission.
-    window.location.href = `mailto:info@cobagold.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:${COBA_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     setSubscribeMessage(locale === 'ru' ? 'Спасибо! Подписка отправлена.' : 'Thanks! Subscription sent.')
   }
 
@@ -1023,7 +1024,7 @@ function App({
               <p className="max-w-xl text-zinc-400">
                 {t.contact.subtitle}
               </p>
-              <p className="font-mono text-sky-400">info@cobagold.com</p>
+              <p className="font-mono text-sky-400">{COBA_CONTACT_EMAIL}</p>
             </div>
             <motion.button
               type="button"
