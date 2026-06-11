@@ -9,6 +9,13 @@
       "headers": [
         { "key": "Content-Type", "value": "application/json; charset=utf-8" }
       ]
+    },
+    {
+      "source": "/(coba-logo-wallet-gold.png|coba-icon.svg)",
+      "headers": [
+        { "key": "Access-Control-Allow-Origin", "value": "*" },
+        { "key": "Cache-Control", "value": "public, max-age=86400" }
+      ]
     }
   ]
 }

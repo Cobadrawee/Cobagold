@@ -183,18 +183,27 @@ function App({
 
   const contractPriceText = (() => {
     if (!hasContractPrice) return null
-    if (contractPriceLoading && contractUsdt == null) return locale === 'ru' ? 'Загрузка…' : 'Loading…'
     if (contractUsdt == null || !Number.isFinite(contractUsdt)) return null
     return `$${contractUsdt.toFixed(2)}`
   })()
 
+  const contractPricePending =
+    hasContractPrice && contractPriceLoading && contractUsdt == null
+
+  const spotPriceText =
+    gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : null
+
   const liveCurrentPriceText =
     contractPriceText ??
-    (gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : goldValueForUI)
+    spotPriceText ??
+    (contractPricePending
+      ? locale === 'ru'
+        ? 'Загрузка…'
+        : 'Loading…'
+      : goldValueForUI)
 
   const tokenomicsPriceText =
-    contractPriceText ??
-    (gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : '—')
+    contractPriceText ?? spotPriceText ?? (contractPricePending ? (locale === 'ru' ? 'Загрузка…' : 'Loading…') : '—')
 
   const contactMailtoHref = (() => {
     const subject = locale === 'ru' ? 'Запрос по COBA' : 'COBA inquiry'
@@ -1115,10 +1124,10 @@ function App({
                   {t.footer.tagline}
                 </p>
                 <a
-                  href="mailto:info@cobagold.com"
+                  href={`mailto:${COBA_CONTACT_EMAIL}`}
                   className="font-mono text-sm text-sky-400 transition-colors hover:text-sky-300"
                 >
-                  info@cobagold.com
+                  {COBA_CONTACT_EMAIL}
                 </a>
               </div>
 

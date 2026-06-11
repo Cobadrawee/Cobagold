@@ -7,6 +7,7 @@ import {
   useReadContract,
   useSwitchChain,
   useWaitForTransactionReceipt,
+  useWalletClient,
   useWriteContract,
 } from 'wagmi'
 import { formatUnits, maxUint256, parseUnits } from 'viem'
@@ -21,12 +22,15 @@ import {
   COBA_TOKEN_SYMBOL,
 } from '../config/cobaToken'
 import { getGoldNftContractAddress, getUsdtAddressForChain, isGoldNftConfigured } from '../config/goldNft'
+import { getInjectedEthereumProvider, requestWatchAsset } from '../utils/addTokenToWallet'
 
 type NftFlowMode = 'mint' | 'redeem'
-type AddTokenStatus = 'idle' | 'success' | 'error'
+type AddTokenStatus = 'idle' | 'success' | 'error' | 'pending'
 
-type Eip1193Provider = {
-  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>
+type MintReceipt = {
+  cobaAmount: string
+  usdtPaid: string
+  pricePerCoba: string
 }
 
 export default function GoldNftMintPage({
@@ -38,6 +42,7 @@ export default function GoldNftMintPage({
 }) {
   const t = translations[locale].nftMint
   const { open } = useAppKit()
+  const { data: walletClient } = useWalletClient()
   const { address, isConnected } = useAccount()
   const chainId = useChainId()
   const { switchChain, isPending: isSwitchPending } = useSwitchChain()
@@ -53,6 +58,8 @@ export default function GoldNftMintPage({
   const [addTokenStatus, setAddTokenStatus] = useState<AddTokenStatus>('idle')
   const [isCopyingAddress, setIsCopyingAddress] = useState(false)
   const [copiedAddress, setCopiedAddress] = useState(false)
+  const [mintReceipt, setMintReceipt] = useState<MintReceipt | null>(null)
+  const pendingMintReceiptRef = useRef<MintReceipt | null>(null)
 
   useEffect(() => {
     document.title = t.documentTitle
@@ -168,27 +175,41 @@ export default function GoldNftMintPage({
 
   const handleAddTokenToWallet = async () => {
     if (!nftAddress) return
-    const provider = (window as Window & { ethereum?: Eip1193Provider }).ethereum
-    if (!provider?.request) return
+
+    const asset = {
+      address: nftAddress,
+      symbol: COBA_TOKEN_SYMBOL,
+      decimals: COBA_TOKEN_DECIMALS,
+      image: COBA_TOKEN_LOGO_URL,
+    }
 
     try {
       setIsAddingToken(true)
-      setAddTokenStatus('idle')
-      const wasAdded = await provider.request({
-        method: 'wallet_watchAsset',
-        params: [
-          {
-            type: 'ERC20',
-            options: {
-              address: nftAddress,
-              symbol: COBA_TOKEN_SYMBOL,
-              decimals: COBA_TOKEN_DECIMALS,
-              image: COBA_TOKEN_LOGO_URL,
-            },
-          },
-        ],
-      })
-      setAddTokenStatus(wasAdded ? 'success' : 'error')
+      setAddTokenStatus('pending')
+
+      const providers = [walletClient, getInjectedEthereumProvider()].filter(
+        (p): p is NonNullable<typeof p> & { request: (args: { method: string; params?: unknown }) => Promise<unknown> } =>
+          !!p && typeof (p as { request?: unknown }).request === 'function',
+      )
+
+      for (const provider of providers) {
+        const ok = await requestWatchAsset(provider, asset)
+        if (ok) {
+          setAddTokenStatus('success')
+          return
+        }
+      }
+
+      await new Promise((r) => window.setTimeout(r, 900))
+      for (const provider of providers) {
+        const ok = await requestWatchAsset(provider, asset)
+        if (ok) {
+          setAddTokenStatus('success')
+          return
+        }
+      }
+
+      setAddTokenStatus('error')
     } catch {
       setAddTokenStatus('error')
     } finally {
@@ -212,8 +233,11 @@ export default function GoldNftMintPage({
     if (!isConfirmed || !txHash) return
     const intent = pendingIntentRef.current
     if (intent === 'mint') {
+      setMintReceipt(pendingMintReceiptRef.current)
       setShowMintSuccess(true)
-      void handleAddTokenToWallet()
+      window.setTimeout(() => {
+        void handleAddTokenToWallet()
+      }, 400)
     }
     if (intent === 'redeem') setShowRedeemSuccess(true)
     pendingIntentRef.current = null
@@ -261,8 +285,18 @@ export default function GoldNftMintPage({
   const handleMint = () => {
     if (!nftAddress || tokenAmount === undefined) return
     setShowMintSuccess(false)
+    setMintReceipt(null)
     setAddTokenStatus('idle')
     setCopiedAddress(false)
+    if (totalCost !== undefined && pricePerToken !== undefined) {
+      pendingMintReceiptRef.current = {
+        cobaAmount: amountStr.trim() || formatUnits(tokenAmount, 18),
+        usdtPaid: formatUnits(totalCost, 6),
+        pricePerCoba: formatUnits(pricePerToken, 6),
+      }
+    } else {
+      pendingMintReceiptRef.current = null
+    }
     pendingIntentRef.current = 'mint'
     writeContract({
       address: nftAddress,
@@ -283,6 +317,12 @@ export default function GoldNftMintPage({
       args: [tokenAmount],
     })
   }
+
+  const holdingsUsdtValue = useMemo(() => {
+    if (tokenBalance === undefined || pricePerToken === undefined || tokenBalance <= 0n) return null
+    const micro = (tokenBalance * pricePerToken) / 10n ** 18n
+    return formatUnits(micro, 6)
+  }, [tokenBalance, pricePerToken])
 
   const wrongNetwork = isConnected && chainId !== mainnet.id
   const configured = isGoldNftConfigured()
@@ -429,6 +469,18 @@ export default function GoldNftMintPage({
                         </p>
                       )}
 
+                      {tokenBalance !== undefined && tokenBalance > 0n && (
+                        <p className="text-xs text-zinc-500">
+                          {t.tokenBalance}: {formatUnits(tokenBalance, 18)} COBA
+                          {holdingsUsdtValue != null && (
+                            <span className="text-gold-300/90">
+                              {' '}
+                              (≈ {holdingsUsdtValue} USDT)
+                            </span>
+                          )}
+                        </p>
+                      )}
+
                       {treasuryCobaBalance !== undefined && (
                         <p className="text-xs text-zinc-500">
                           {t.treasuryCobaInventory}: {formatUnits(treasuryCobaBalance, 18)} COBA
@@ -508,6 +560,12 @@ export default function GoldNftMintPage({
                       {tokenBalance !== undefined && (
                         <p className="text-xs text-zinc-500">
                           {t.tokenBalance}: {formatUnits(tokenBalance, 18)} COBA
+                          {holdingsUsdtValue != null && (
+                            <span className="text-gold-300/90">
+                              {' '}
+                              ({t.holdingsValue}: ≈ {holdingsUsdtValue} USDT)
+                            </span>
+                          )}
                         </p>
                       )}
 
@@ -554,6 +612,39 @@ export default function GoldNftMintPage({
                   {showMintSuccess && (
                     <div className="space-y-3 text-center">
                       <p className="text-sm font-medium text-emerald-400">{t.successMint}</p>
+                      {mintReceipt && (
+                        <div className="mx-auto w-full max-w-sm rounded-xl border border-gold-500/25 bg-gold-500/10 p-4 text-left">
+                          <div className="flex items-center gap-3">
+                            <img
+                              src="/coba-logo-wallet-gold.png"
+                              alt="COBA"
+                              className="h-12 w-12 shrink-0 rounded-full object-cover"
+                            />
+                            <p className="text-sm font-semibold text-gold-200">{t.purchaseReceiptTitle}</p>
+                          </div>
+                          <dl className="mt-4 space-y-2 text-sm">
+                            <div className="flex justify-between gap-4">
+                              <dt className="text-zinc-400">{t.purchaseReceiptReceived}</dt>
+                              <dd className="font-semibold text-white">{mintReceipt.cobaAmount} COBA</dd>
+                            </div>
+                            <div className="flex justify-between gap-4">
+                              <dt className="text-zinc-400">{t.purchaseReceiptPaid}</dt>
+                              <dd className="font-semibold text-white">{mintReceipt.usdtPaid} USDT</dd>
+                            </div>
+                            <div className="flex justify-between gap-4">
+                              <dt className="text-zinc-400">{t.purchaseReceiptRate}</dt>
+                              <dd className="font-semibold text-gold-300">{mintReceipt.pricePerCoba} USDT</dd>
+                            </div>
+                            <div className="flex justify-between gap-4 border-t border-white/10 pt-2">
+                              <dt className="text-zinc-300">{t.purchaseReceiptValue}</dt>
+                              <dd className="text-lg font-bold text-gold-300">{mintReceipt.usdtPaid} USDT</dd>
+                            </div>
+                          </dl>
+                        </div>
+                      )}
+                      {(addTokenStatus === 'pending' || isAddingToken) && (
+                        <p className="text-xs text-gold-200/90">{t.addTokenPrompt}</p>
+                      )}
                       <button
                         type="button"
                         onClick={() => void handleAddTokenToWallet()}

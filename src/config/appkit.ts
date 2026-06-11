@@ -1,6 +1,7 @@
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
+import { fallback, http } from 'viem'
 import { mainnet } from 'viem/chains'
 
 // Get project ID from https://dashboard.reown.com — required for WalletConnect QR code and wallet discovery
@@ -53,10 +54,26 @@ const customWallets = [
   },
 ]
 
+const ethereumRpcUrl = import.meta.env.VITE_ETHEREUM_RPC_URL?.trim()
+
+/** Default viem mainnet RPC (eth.merkle.io) often times out — use stable public endpoints. */
+const mainnetTransport = fallback(
+  [
+    ...(ethereumRpcUrl ? [http(ethereumRpcUrl)] : []),
+    http('https://ethereum.publicnode.com'),
+    http('https://eth.drpc.org'),
+    http('https://1rpc.io/eth'),
+  ],
+  { rank: false },
+)
+
 export const wagmiAdapter = new WagmiAdapter({
   networks,
   projectId,
   ssr: false,
+  transports: {
+    [mainnet.id]: mainnetTransport,
+  },
 })
 
 createAppKit({

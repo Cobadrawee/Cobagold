@@ -1,49 +1,76 @@
-COBA — handover checklist (client-only items for AnyDesk)
-============================================================
+COBA — wallet logo + USD price (who does what)
+================================================
 
-Already done on developer side (no action needed):
-- Website repo pushed; homepage + mint page read same contract price
-- Wallet add-token uses yellow owl logo (coba-logo-wallet-gold.png)
-- price-sync/ folder ready for client GitHub (hourly auto price)
-- Failing workflow removed from developer GitHub (no more spam emails)
-
-CONTRACT
-  Address: 0x59aCE07c94ef75209b65A516D33E167947941012
-  Owner/treasury: 0x25914aeB4961BF47Bdb4Ba6cC373105a0ac464E2 (MetaMask Account 17)
-  Network: Ethereum mainnet
-
-CLIENT MUST HAVE BEFORE SESSION
-  [ ] MetaMask Account 17 on their PC
-  [ ] ~0.02 ETH (gas)
-  [ ] ~$15–20 USDT (wallet USD price — Uniswap pool)
-  [ ] Client GitHub account (not developer's)
-
-ANYDESK — CLIENT WALLET ONLY
-  [ ] price-sync repo on CLIENT GitHub + secrets + green workflow run
-  [ ] Etherscan verifyaddress + tokenupdate (logo: coba-logo-wallet-gold.png)
-  [ ] Uniswap COBA/USDT pool (~$15 USDT)
-  [ ] USDT approve to contract (redeem on site)
-  [ ] Test buy on cobagold.com/mint-nft
-
-DEVELOPER MAC SAME EVENING
-  [ ] CoinGecko partner submit (Uniswap + DexScreener URL)
-
-HANDOVER — TRANSFER TO CLIENT
-  [ ] Vercel project ownership
-  [ ] GitHub website repo (or client becomes sole owner)
-  [ ] Reown dashboard project
-  [ ] CoinGecko partner login (client changes password)
-  [ ] Domain/DNS if applicable
-  [ ] Remove developer from all of the above
-  [ ] Client owns price-sync repo + secrets (developer never keeps private key)
-
-WALLET LOGO / USD — SET EXPECTATION
-  Submitted in session; MetaMask/OKX show logo and $ after Etherscan + CoinGecko index (days, not same hour).
-
-KEY URLS
+CONTRACT (mainnet)
+  0x59aCE07c94ef75209b65A516D33E167947941012
+  Name: COBA drawee | Symbol: COBA | Decimals: 18
   Site: https://www.cobagold.com
   Mint: https://www.cobagold.com/mint-nft
+
+================================================
+DONE BY DEVELOPER (code — deploy to go live)
+================================================
+  [x] After buy: auto "Add COBA to wallet" with logo (wallet_watchAsset)
+  [x] After buy: purchase receipt (COBA received, USDT paid, price per COBA)
+  [x] Connected wallet shows COBA balance ≈ USDT value from contract
+  [x] Reliable Ethereum RPC (fixes stuck "Loading" price on homepage)
+  [x] Logo URL: https://www.cobagold.com/coba-logo-wallet-gold.png
+  [x] CORS headers on logo so wallets can fetch the image
+  [ ] Push + Vercel deploy (run after you approve push, or do manually)
+
+================================================
+YOU MUST DO — LOGO IN WALLETS
+================================================
+
+STEP 1 — Deploy site (5 min)
+  Vercel → Project → Settings → Environment Variables:
+    VITE_GOLD_NFT_CONTRACT = 0x59aCE07c94ef75209b65A516D33E167947941012
+    VITE_SITE_URL = https://www.cobagold.com
+    VITE_WALLETCONNECT_PROJECT_ID = (your Reown project id)
+  Deployments → Redeploy latest main branch → wait Ready
+  Test: buy 0.001 COBA → wallet popup "Add COBA?" → Confirm → logo visible
+
+STEP 2 — Etherscan token logo (15 min + wait days)
+  https://etherscan.io/tokenupdate
+  Contract: 0x59aCE07c94ef75209b65A516D33E167947941012
+  Name: COBA drawee | Symbol: COBA | Decimals: 18
+  Website: https://www.cobagold.com
+  Logo file: public/coba-logo-wallet-gold.png (512×512 PNG on your Mac in project)
+  Wait for Etherscan approval → MetaMask picks up logo over days
+
+STEP 3 — Trust Wallet (optional, ~30 min + wait weeks)
+  https://github.com/trustwallet/assets — PR with logo + contract info
+
+================================================
+YOU MUST DO — USD PRICE IN METAMASK
+================================================
+  MetaMask price = CoinGecko only (official). Site cannot inject USD into wallet.
+
+STEP 4 — Uniswap V3 pool (your wallet + USDT + COBA)
+  app.uniswap.org → Ethereum → V3 (not V4)
+  Pair: COBA / USDT
+  Add liquidity (your amounts) + do real buy/sell swaps over 7–14 days
+  Save the exact pool URL
+
+STEP 5 — Re-submit CoinGecko (free, after Step 4)
+  https://www.coingecko.com → Request Form → New Token Listing
+  Contract: 0x59aCE07c94ef75209b65A516D33E167947941012
+  Exchange: paste exact Uniswap V3 pool URL from Step 4
+  Website + logo + Etherscan link
+  One submission only; wait for review
+
+STEP 6 — CoinMarketCap backup (free, parallel)
+  https://coinmarketcap.com/request → New Listing
+  Same contract, pool URL, website
+
+================================================
+HOW YOU KNOW IT WORKED
+================================================
+  Logo after buy:     MetaMask shows COBA with gold owl after you Confirm popup
+  Logo globally:      etherscan.io/token/0x59aC... shows logo; wallets follow later
+  Price in MetaMask:  coingecko.com lists COBA → MetaMask shows $ not —
+
+KEY URLS
   Etherscan token: https://etherscan.io/token/0x59aCE07c94ef75209b65A516D33E167947941012
-  Etherscan verify: https://etherscan.io/verifyaddress
-  Etherscan logo: https://etherscan.io/tokenupdate
-  CoinGecko partner: https://partner.coingecko.com
+  Etherscan logo:  https://etherscan.io/tokenupdate
+  CoinGecko form:  https://www.coingecko.com/en/coins/new (or footer Request Form)

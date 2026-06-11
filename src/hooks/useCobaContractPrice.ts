@@ -14,7 +14,12 @@ export function useCobaContractPrice() {
     abi: cobaGoldBackedNftAbi,
     functionName: 'usdtForOneToken',
     chainId: mainnet.id,
-    query: { enabled, refetchInterval: 60_000 },
+    query: {
+      enabled,
+      refetchInterval: 60_000,
+      retry: 2,
+      staleTime: 30_000,
+    },
   })
 
   const usdtPerToken =
