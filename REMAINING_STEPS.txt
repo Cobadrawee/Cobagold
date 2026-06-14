@@ -1,0 +1,102 @@
+COBA — WHAT IS DONE vs WHAT YOU DO (final handover)
+====================================================
+
+CONTRACT (only address — use everywhere)
+  0x59aCE07c94ef75209b65A516D33E167947941012
+  Name: COBA drawee | Symbol: COBA | Decimals: 18
+  Site: https://www.cobagold.com/mint-nft
+
+====================================================
+DONE (developer — already live or in code)
+====================================================
+
+  [x] Site live on www.cobagold.com
+  [x] Code on GitHub: Cobadrawee/Cobagold
+  [x] Buy / redeem COBA with USDT
+  [x] After every buy: site auto-opens wallet "Add COBA?" popup
+      (customer taps Confirm once — MetaMask / most wallets)
+  [x] Purchase receipt shows COBA amount + USDT paid + price
+  [x] Logo file for wallets: https://www.cobagold.com/coba-logo-wallet-gold.png
+  [x] SVG for Etherscan form: https://www.cobagold.com/coba-icon.svg
+
+  HARD LIMIT (no website can bypass this):
+  - Wallets require ONE user tap on "Confirm" for security (EIP-747).
+  - Logo for ALL users globally = Etherscan approval (below).
+  - $ price in MetaMask = CoinGecko listing (below).
+
+====================================================
+YOU — STEP 1: Unblock Etherscan logo (15 min + wait days)
+====================================================
+
+  You already submitted the form (~5 Jun). Etherscan emailed back
+  asking about seed sale / burns. Reply to that email ONLY:
+
+  --- copy from here ---
+  Contract: 0x59aCE07c94ef75209b65A516D33E167947941012
+
+  Private Sale / Seed Sale / Vesting: N/A — no private or seed sale.
+  Burn events: N/A — no burn program.
+
+  COBA is a gold-backed ERC-20. Users buy and redeem at
+  https://www.cobagold.com
+
+  Logo SVG: https://www.cobagold.com/coba-icon.svg
+
+  Please approve the logo update for this contract.
+  Andrai
+  --- copy to here ---
+
+  Do NOT fill tokenupdate form again unless Etherscan asks you to.
+
+  When approved: https://etherscan.io/token/0x59aCE07c94ef75209b65A516D33E167947941012
+  shows the owl → MetaMask / Trust / OKX pick it up over days.
+
+====================================================
+YOU — STEP 2: $ price in MetaMask (client wallet + ~1 hour)
+====================================================
+
+  MetaMask price comes ONLY from CoinGecko (not from our site).
+
+  2a. Create Uniswap V3 pool (Ethereum mainnet)
+      https://app.uniswap.org
+      Pair: COBA / USDT
+      Contract: 0x59aCE07c94ef75209b65A516D33E167947941012
+      Add small liquidity (~$15–20 USDT) + do a few real swaps over 1–2 weeks
+      Save the pool URL from DexScreener or Uniswap
+
+  2b. Re-apply CoinGecko (free)
+      https://www.coingecko.com → Request Form → New Token Listing
+      Contract: 0x59aCE07c94ef75209b65A516D33E167947941012
+      Exchange: paste Uniswap V3 pool URL from 2a
+      Website + logo link above
+      One submission — wait for review
+
+  After CoinGecko lists COBA → MetaMask shows $ instead of —
+
+====================================================
+YOU — STEP 3: Test auto-add after deploy (5 min)
+====================================================
+
+  Wait for Vercel deploy Ready (auto from GitHub push).
+
+  1. Open https://www.cobagold.com/mint-nft (hard refresh)
+  2. Connect MetaMask on Ethereum mainnet
+  3. Buy 0.001 COBA
+  4. After success → wallet popup "Add COBA?" → Confirm
+  5. COBA appears in token list with owl logo (if Etherscan approved)
+
+====================================================
+OPTIONAL — Trust Wallet global logo (later)
+====================================================
+
+  https://github.com/trustwallet/assets
+  PR: blockchains/ethereum/assets/0x59aCE07c94ef75209b65A516D33E167947941012/logo.png
+
+====================================================
+TELL YOUR CLIENT
+====================================================
+
+  "Site and contract are live. After purchase, customers get an automatic
+  prompt to add COBA to their wallet (one Confirm tap). Global wallet logo
+  is with Etherscan for review. USD price in wallets follows Uniswap +
+  CoinGecko listing — step 2 above."

@@ -18,11 +18,16 @@ import { translations } from '../translations'
 import { cobaGoldBackedNftAbi, erc20ApproveAbi } from '../abi/cobaGoldBackedNft'
 import {
   COBA_TOKEN_DECIMALS,
+  COBA_TOKEN_LOGO_SVG_URL,
   COBA_TOKEN_LOGO_URL,
   COBA_TOKEN_SYMBOL,
 } from '../config/cobaToken'
 import { getGoldNftContractAddress, getUsdtAddressForChain, isGoldNftConfigured } from '../config/goldNft'
-import { getInjectedEthereumProvider, requestWatchAsset } from '../utils/addTokenToWallet'
+import {
+  getInjectedEthereumProvider,
+  requestWatchAsset,
+  requestWatchAssetViaClient,
+} from '../utils/addTokenToWallet'
 
 type NftFlowMode = 'mint' | 'redeem'
 type AddTokenStatus = 'idle' | 'success' | 'error' | 'pending'
@@ -181,32 +186,29 @@ export default function GoldNftMintPage({
       symbol: COBA_TOKEN_SYMBOL,
       decimals: COBA_TOKEN_DECIMALS,
       image: COBA_TOKEN_LOGO_URL,
+      imageFallback: COBA_TOKEN_LOGO_SVG_URL,
     }
 
     try {
       setIsAddingToken(true)
       setAddTokenStatus('pending')
 
-      const providers = [walletClient, getInjectedEthereumProvider()].filter(
-        (p): p is NonNullable<typeof p> & { request: (args: { method: string; params?: unknown }) => Promise<unknown> } =>
-          !!p && typeof (p as { request?: unknown }).request === 'function',
-      )
-
-      for (const provider of providers) {
-        const ok = await requestWatchAsset(provider, asset)
-        if (ok) {
-          setAddTokenStatus('success')
-          return
-        }
+      const tryAll = async () => {
+        if (await requestWatchAssetViaClient(walletClient, asset)) return true
+        const injected = getInjectedEthereumProvider()
+        if (await requestWatchAsset(injected, asset)) return true
+        return false
       }
 
-      await new Promise((r) => window.setTimeout(r, 900))
-      for (const provider of providers) {
-        const ok = await requestWatchAsset(provider, asset)
-        if (ok) {
-          setAddTokenStatus('success')
-          return
-        }
+      if (await tryAll()) {
+        setAddTokenStatus('success')
+        return
+      }
+
+      await new Promise((r) => window.setTimeout(r, 1200))
+      if (await tryAll()) {
+        setAddTokenStatus('success')
+        return
       }
 
       setAddTokenStatus('error')
@@ -643,7 +645,10 @@ export default function GoldNftMintPage({
                         </div>
                       )}
                       {(addTokenStatus === 'pending' || isAddingToken) && (
-                        <p className="text-xs text-gold-200/90">{t.addTokenPrompt}</p>
+                        <div className="mx-auto w-full max-w-sm rounded-xl border border-gold-400/40 bg-gold-500/15 px-4 py-3">
+                          <p className="text-sm font-semibold text-gold-100">{t.addTokenWalletPopup}</p>
+                          <p className="mt-1 text-xs text-gold-200/80">{t.addTokenPrompt}</p>
+                        </div>
                       )}
                       <button
                         type="button"
