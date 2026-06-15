@@ -23,6 +23,7 @@ import {
   COBA_TOKEN_SYMBOL,
 } from '../config/cobaToken'
 import { getGoldNftContractAddress, getUsdtAddressForChain, isGoldNftConfigured } from '../config/goldNft'
+import { useLiveGoldCobaPrice } from '../hooks/useLiveGoldCobaPrice'
 import {
   getInjectedEthereumProvider,
   requestWatchAsset,
@@ -46,6 +47,7 @@ export default function GoldNftMintPage({
   setLocale: Dispatch<SetStateAction<Locale>>
 }) {
   const t = translations[locale].nftMint
+  const { usdtPerCoba: liveUsdtPerCoba, status: livePriceStatus } = useLiveGoldCobaPrice()
   const { open } = useAppKit()
   const { data: walletClient } = useWalletClient()
   const { address, isConnected } = useAccount()
@@ -326,6 +328,20 @@ export default function GoldNftMintPage({
     return formatUnits(micro, 6)
   }, [tokenBalance, pricePerToken])
 
+  const contractUsdtPerCoba =
+    pricePerToken !== undefined ? Number.parseFloat(formatUnits(pricePerToken, 6)) : null
+
+  const displayUsdtPerCoba =
+    livePriceStatus === 'ok' && liveUsdtPerCoba != null
+      ? liveUsdtPerCoba
+      : contractUsdtPerCoba
+
+  const showContractBuyNote =
+    livePriceStatus === 'ok' &&
+    liveUsdtPerCoba != null &&
+    contractUsdtPerCoba != null &&
+    Math.abs(liveUsdtPerCoba - contractUsdtPerCoba) / liveUsdtPerCoba > 0.005
+
   const wrongNetwork = isConnected && chainId !== mainnet.id
   const configured = isGoldNftConfigured()
 
@@ -427,11 +443,17 @@ export default function GoldNftMintPage({
                   <div className="space-y-1">
                     <p className="text-xs font-medium uppercase tracking-wider text-zinc-500">{t.priceLabel}</p>
                     <p className="text-2xl font-semibold text-gold-400">
-                      {pricePerToken !== undefined
-                        ? `${formatUnits(pricePerToken, 6)} USDT`
-                        : '—'}
+                      {displayUsdtPerCoba != null ? `${displayUsdtPerCoba.toFixed(2)} USDT` : '—'}
                     </p>
                     <p className="text-xs text-zinc-500">{t.perNft}</p>
+                    {livePriceStatus === 'ok' && liveUsdtPerCoba != null && (
+                      <p className="text-xs text-emerald-400/90">{t.livePriceAuto}</p>
+                    )}
+                    {showContractBuyNote && contractUsdtPerCoba != null && (
+                      <p className="text-xs text-amber-200/90">
+                        {t.contractBuyNote.replace('{amount}', contractUsdtPerCoba.toFixed(2))}
+                      </p>
+                    )}
                   </div>
 
                   <p className="text-xs text-zinc-500">{t.gramsNote}</p>

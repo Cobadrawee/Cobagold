@@ -46,7 +46,8 @@ YOU — STEP 1: Unblock Etherscan logo (15 min + wait days)
   Andrai
   --- copy to here ---
 
-  Do NOT fill tokenupdate form again unless Etherscan asks you to.
+  When finishing the project, add GitHub secrets on Cobadrawee/Cobagold → Actions will sync on-chain price hourly.
+  Until then the site shows live gold spot automatically in the browser.
 
   When approved: https://etherscan.io/token/0x59aCE07c94ef75209b65A516D33E167947941012
   shows the owl → MetaMask / Trust / OKX pick it up over days.

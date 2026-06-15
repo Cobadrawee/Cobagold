@@ -13,9 +13,8 @@ import AboutProjectText from './components/AboutProjectText'
 import FooterAutoplayVideo from './components/FooterAutoplayVideo'
 import aboutProjectRu from './content/about-project-ru.txt?raw'
 import aboutProjectEn from './content/about-project-en.txt?raw'
-import { readGoldPriceCache, writeGoldPriceCache } from './utils/goldPriceCache'
-import { fetchGoldSpotUsdPerTroyOz } from './utils/goldSpotUsdPerOz'
 import { useCobaContractPrice } from './hooks/useCobaContractPrice'
+import { useLiveGoldCobaPrice } from './hooks/useLiveGoldCobaPrice'
 import { COBA_CONTACT_EMAIL } from './config/contact'
 
 function App({
@@ -32,16 +31,9 @@ function App({
   const [subscribeMessage, setSubscribeMessage] = useState('')
   const [contactMessage, setContactMessage] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [gold9_6gUsdt, setGold9_6gUsdt] = useState<number | null>(() => readGoldPriceCache()?.usdt9_6g ?? null)
-  const [gold24hChange, setGold24hChange] = useState<number | null>(
-    () => readGoldPriceCache()?.change24hPct ?? null,
-  )
-  const [gold9_6gStatus, setGold9_6gStatus] = useState<'loading' | 'ok' | 'error'>(() =>
-    readGoldPriceCache() ? 'ok' : 'loading',
-  )
-  /** True when live APIs failed but we still show a saved price from localStorage */
-  const [goldPriceStale, setGoldPriceStale] = useState(false)
   const t = translations[locale]
+  const { usdtPerCoba: liveUsdtPerCoba, change24hPct: gold24hChange, status: gold9_6gStatus, isStale: goldPriceStale } =
+    useLiveGoldCobaPrice()
   const { usdtPerToken: contractUsdt, isLoading: contractPriceLoading, isConfigured: hasContractPrice } =
     useCobaContractPrice()
 
@@ -63,119 +55,9 @@ function App({
     setMobileMenuOpen(false)
   }, [locale])
 
-  // Live comparison: 9.6 grams of gold -> USDT (USD) equivalent.
-  // Multiple API sources + localStorage cache so a value usually stays visible.
-  useEffect(() => {
-    let cancelled = false
-    const apiKey = import.meta.env.VITE_METALAPI_KEY
-
-    const fetchWithRetry = async (url: string, attempts = 3): Promise<Response | null> => {
-      for (let i = 0; i < attempts; i++) {
-        try {
-          const res = await fetch(url)
-          if (res.ok) return res
-          if (res.status === 429 && i < attempts - 1) {
-            await new Promise((r) => setTimeout(r, 1200 * (i + 1)))
-            continue
-          }
-          if (i === attempts - 1) return res
-        } catch {
-          if (i === attempts - 1) return null
-          await new Promise((r) => setTimeout(r, 600 * (i + 1)))
-        }
-      }
-      return null
-    }
-
-    const applyLivePrice = (usdPerOunce: number, change24h: number | null) => {
-      const gramsPerOunce = 31.1034768
-      const usdt = (usdPerOunce * 9.6) / gramsPerOunce
-      if (cancelled) return
-      setGold9_6gUsdt(usdt)
-      setGold24hChange(change24h)
-      setGold9_6gStatus('ok')
-      setGoldPriceStale(false)
-      writeGoldPriceCache(usdt, change24h)
-    }
-
-    const fetchGold = async () => {
-      try {
-        const spot = await fetchGoldSpotUsdPerTroyOz(fetchWithRetry, apiKey)
-        const usdPerOunce = spot?.usdPerTroyOz ?? null
-        let change24h: number | null = spot?.change24hPct ?? null
-
-        // Fallback 24h % from chart if exchanges didn’t return it
-        if (usdPerOunce != null && change24h == null) {
-          try {
-            const chartRes = await fetchWithRetry(
-              'https://api.coingecko.com/api/v3/coins/pax-gold/market_chart?vs_currency=usd&days=2',
-            )
-            if (chartRes?.ok) {
-              const chart = (await chartRes.json()) as { prices?: [number, number][] }
-              const prices = chart?.prices ?? []
-              if (prices.length >= 2) {
-                const now = Date.now()
-                const dayAgo = now - 24 * 60 * 60 * 1000
-                const recent = prices.filter(([t]) => t >= dayAgo).sort((a, b) => b[0] - a[0])
-                const older = prices.filter(([t]) => t < dayAgo).sort((a, b) => b[0] - a[0])
-                const priceNow = recent[0]?.[1]
-                const price24h = older[0]?.[1]
-                if (typeof priceNow === 'number' && typeof price24h === 'number' && price24h > 0) {
-                  change24h = ((priceNow - price24h) / price24h) * 100
-                }
-              }
-            }
-          } catch {
-            // ignore
-          }
-        }
-
-        if (typeof usdPerOunce === 'number' && usdPerOunce > 0) {
-          applyLivePrice(usdPerOunce, change24h)
-          return
-        }
-
-        const cached = readGoldPriceCache()
-        if (cached && !cancelled) {
-          setGold9_6gUsdt(cached.usdt9_6g)
-          setGold24hChange(cached.change24hPct)
-          setGold9_6gStatus('ok')
-          setGoldPriceStale(true)
-          return
-        }
-
-        if (!cancelled) {
-          setGold9_6gUsdt(null)
-          setGold24hChange(null)
-          setGold9_6gStatus('error')
-          setGoldPriceStale(false)
-        }
-      } catch {
-        const cached = readGoldPriceCache()
-        if (cached && !cancelled) {
-          setGold9_6gUsdt(cached.usdt9_6g)
-          setGold24hChange(cached.change24hPct)
-          setGold9_6gStatus('ok')
-          setGoldPriceStale(true)
-        } else if (!cancelled) {
-          setGold9_6gUsdt(null)
-          setGold24hChange(null)
-          setGold9_6gStatus('error')
-          setGoldPriceStale(false)
-        }
-      }
-    }
-
-    fetchGold()
-    const id = window.setInterval(fetchGold, 60_000)
-    return () => {
-      cancelled = true
-      window.clearInterval(id)
-    }
-  }, [])
 
   const goldValueForUI = (() => {
-    if (gold9_6gStatus === 'ok' && gold9_6gUsdt != null) return gold9_6gUsdt.toFixed(2)
+    if (gold9_6gStatus === 'ok' && liveUsdtPerCoba != null) return liveUsdtPerCoba.toFixed(2)
     if (gold9_6gStatus === 'loading') return 'Loading...'
     if (gold9_6gStatus === 'error') return 'Unavailable'
     return 'Unavailable'
@@ -191,11 +73,12 @@ function App({
     hasContractPrice && contractPriceLoading && contractUsdt == null
 
   const spotPriceText =
-    gold9_6gStatus === 'ok' && gold9_6gUsdt != null ? `$${gold9_6gUsdt.toFixed(2)}` : null
+    gold9_6gStatus === 'ok' && liveUsdtPerCoba != null ? `$${liveUsdtPerCoba.toFixed(2)}` : null
 
+  // Live gold spot auto-refreshes in the browser; contract price used as fallback only.
   const liveCurrentPriceText =
-    contractPriceText ??
     spotPriceText ??
+    contractPriceText ??
     (contractPricePending
       ? locale === 'ru'
         ? 'Загрузка…'
@@ -203,7 +86,7 @@ function App({
       : goldValueForUI)
 
   const tokenomicsPriceText =
-    contractPriceText ?? spotPriceText ?? (contractPricePending ? (locale === 'ru' ? 'Загрузка…' : 'Loading…') : '—')
+    spotPriceText ?? contractPriceText ?? (contractPricePending ? (locale === 'ru' ? 'Загрузка…' : 'Loading…') : '—')
 
   const contactMailtoHref = (() => {
     const subject = locale === 'ru' ? 'Запрос по COBA' : 'COBA inquiry'

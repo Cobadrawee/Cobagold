@@ -162,6 +162,8 @@ export const translations = {
       insufficientUsdt: 'Недостаточно USDT на балансе для этой покупки. Пополните кошелёк или уменьшите количество COBA.',
       priceLabel: 'Стоимость 9.6 грамм золота сейчас',
       perNft: 'USDT за один COBA',
+      livePriceAuto: 'Обновляется автоматически по рынку золота (~каждую минуту).',
+      contractBuyNote: 'Сумма покупки по контракту: {amount} USDT за COBA (синхронизация on-chain — при подключении GitHub).',
       gramsNote: 'Каждый COBA = 9.6 г золота по формуле контракта.',
       priceTracksSite:
         'Тот же спот золота, что на главной; цену в контракте обновляет автоматический сценарий (раз в час, GitHub Actions).',
@@ -387,6 +389,8 @@ export const translations = {
       insufficientUsdt: 'Your USDT balance is below the total for this purchase. Add USDT or lower the quantity.',
       priceLabel: 'Current price per COBA',
       perNft: 'USDT per COBA',
+      livePriceAuto: 'Updates automatically from live gold markets (~every minute).',
+      contractBuyNote: 'Purchase total uses on-chain price: {amount} USDT per COBA (on-chain sync when GitHub is enabled).',
       gramsNote: 'Each COBA represents 9.6 g at the contract formula.',
       priceTracksSite:
         'Same gold spot as the homepage; GitHub Actions updates the on-chain price about once per hour.',
